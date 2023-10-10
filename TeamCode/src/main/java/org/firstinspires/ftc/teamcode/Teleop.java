@@ -18,6 +18,10 @@ public class Teleop extends LinearOpMode
         {
             robot.robotODrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
+            if(gamepad1.a = true)
+            {
+
+            }
         }
     }
 }

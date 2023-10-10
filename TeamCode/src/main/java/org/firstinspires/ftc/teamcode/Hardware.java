@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware
 {
@@ -13,6 +14,14 @@ public class Hardware
     public DcMotorEx frontRight;
     public DcMotorEx backLeft;
     public DcMotorEx backRight;
+
+    public Servo leftDeposit;
+
+    public Servo rightDeposit;
+
+    public boolean leftUp;
+
+    public boolean rightUp;
 
     //helper class variables
     public double x = 0, y = 0, theta = 0;
