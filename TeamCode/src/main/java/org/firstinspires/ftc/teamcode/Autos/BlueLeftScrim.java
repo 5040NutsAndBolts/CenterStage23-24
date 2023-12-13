@@ -64,15 +64,47 @@ public class BlueLeftScrim extends LinearOpMode
             telemetry.update();
         }
 
+        robot.resetOdometry(0,0,0);
         waitForStart();
 
         //this loop runs after play pressed
         while(opModeIsActive())
         {
             //strafe right
-            while(robot.x < 4 && opModeIsActive())
+            while(robot.y > -1.5 && opModeIsActive())
             {
+                robot.updatePositionRoadRunner();
                 robot.robotODrive(0,.5,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //left spike mark
+            if(auto == 1)
+            {
+                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,-.5);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+            }
+
+            if(auto == 2)
+            {
+
+            }
+
+            if(auto == 3)
+            {
+
             }
 
             robot.robotODrive(0,0,0);

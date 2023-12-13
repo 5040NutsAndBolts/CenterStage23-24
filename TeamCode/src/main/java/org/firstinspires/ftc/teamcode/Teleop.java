@@ -13,7 +13,6 @@ public class Teleop extends LinearOpMode
         waitForStart();
         while(opModeIsActive())
         {
-
             //Drivetrain code
             robot.robotODrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
