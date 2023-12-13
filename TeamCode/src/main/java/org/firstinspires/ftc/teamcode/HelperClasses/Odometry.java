@@ -25,7 +25,7 @@ public class Odometry extends Hardware
     public ThreeTrackingWheelLocalizer odom = new ThreeTrackingWheelLocalizer
             (
                     new ArrayList<>(Arrays.asList(
-                            new Pose2d(5.958820361, 0, Math.PI / 2), //center wheel
+                            new Pose2d(6.294091345, 0, Math.PI / 2), //center wheel
                             new Pose2d(0, trackwidth/2, 0), //right wheel
                             new Pose2d(0, -trackwidth/2, 0))) //left wheel
             )

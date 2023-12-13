@@ -10,10 +10,13 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
+import com.acmerobotics.dashboard.FtcDashboard;
 
 @TeleOp(name = "Vision Test", group = "Teleop")
 public class VisionTest extends LinearOpMode
 {
+    int auto = 1;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -37,14 +40,42 @@ public class VisionTest extends LinearOpMode
             }
         });
 
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        dashboard.startCameraStream(webcam, 0);
+        Telemetry dashboardTelemetry = dashboard.getTelemetry();
+
         webcam.setPipeline(new TSEFinder());
 
         waitForStart();
         while(opModeIsActive())
         {
+            if(TSEFinder.width < 30)
+                auto = 3;
+            else
+            {
+                if(TSEFinder.screenPosition.x > 70)
+                    auto = 2;
+                else
+                    auto = 1;
+            }
+
+            telemetry.addData("auto num", auto);
             telemetry.addData("X Position", TSEFinder.screenPosition.x);
             telemetry.addData("Y Position", TSEFinder.screenPosition.y);
+            telemetry.addLine();
+            telemetry.addData("Area", TSEFinder.score);
+            telemetry.addData("Width", TSEFinder.width);
+            telemetry.addData("Height", TSEFinder.height);
             telemetry.update();
+
+            dashboardTelemetry.addData("auto num", auto);
+            dashboardTelemetry.addData("X Position", TSEFinder.screenPosition.x);
+            dashboardTelemetry.addData("Y Position", TSEFinder.screenPosition.y);
+            dashboardTelemetry.addLine();
+            dashboardTelemetry.addData("Area", TSEFinder.score);
+            dashboardTelemetry.addData("Width", TSEFinder.width);
+            dashboardTelemetry.addData("Height", TSEFinder.height);
+            dashboardTelemetry.update();
         }
     }
 }

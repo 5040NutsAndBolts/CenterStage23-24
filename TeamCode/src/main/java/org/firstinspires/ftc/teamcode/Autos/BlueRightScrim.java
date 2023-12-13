@@ -17,6 +17,8 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name = "Blue Right Auto", group = "Autonomous")
 public class BlueRightScrim extends LinearOpMode
 {
+    int auto = 1;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -42,7 +44,25 @@ public class BlueRightScrim extends LinearOpMode
 
             }
         });
-        webcam.setPipeline(new TSEFinder());
+        webcam.setPipeline(new BlueFinder());
+
+        while(!isStopRequested() && !isStarted())
+        {
+            if(BlueFinder.width < 30)
+                auto = 3;
+            else
+            {
+                if(BlueFinder.screenPosition.x > 70)
+                    auto = 2;
+                else
+                    auto = 1;
+            }
+
+            telemetry.addData("Auto", auto);
+            telemetry.addData("X Pos", TSEFinder.screenPosition.x);
+            telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+            telemetry.update();
+        }
 
         waitForStart();
 

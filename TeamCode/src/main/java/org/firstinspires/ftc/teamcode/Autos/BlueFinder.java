@@ -16,6 +16,10 @@ import java.util.List;
 //the core.inRange line is what controls the important stuff
 public class BlueFinder extends OpenCvPipeline
 {
+    public static double score = 0;
+    public static double height = 0;
+    public static double width = 0;
+
     // Coordinate position of the top left corner of the selected rectangle
     public static Point screenPosition = new Point(0,0);
 
@@ -93,8 +97,11 @@ public class BlueFinder extends OpenCvPipeline
         // Sets the position of the selected rectangle (relative to the screen resolution)
         screenPosition = new Point(bestRect.x, bestRect.y);
 
-        return selectionMask;
+        score = bestRect.height * bestRect.width;
+        height = bestRect.height;
+        width = bestRect.width;
 
+        return selectionMask;
     }
 
 
