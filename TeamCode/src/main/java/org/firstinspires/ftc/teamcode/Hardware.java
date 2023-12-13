@@ -43,7 +43,7 @@ public class Hardware
 
     //used in our odo but not RoadRunner classes
     public static final double ODOM_TICKS_PER_IN = 335.4658854;
-    public static double trackwidth = 15.5093668;
+    public static double trackwidth = 15.57716028;
 
     public Hardware(HardwareMap hardwareMap)
     {

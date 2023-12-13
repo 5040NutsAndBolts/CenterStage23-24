@@ -44,16 +44,19 @@ public class BlueLeftScrim extends LinearOpMode
 
             }
         });
-        webcam.setPipeline(new TSEFinder());
+        webcam.setPipeline(new BlueFinder());
 
         while(!isStopRequested() && !isStarted())
         {
-            if(TSEFinder.screenPosition.x < 0)
-                auto = 1;
-            else if (TSEFinder.screenPosition.x < 60)
-                auto = 2;
-            else
+            if(BlueFinder.width < 30)
                 auto = 3;
+            else
+            {
+                if(BlueFinder.screenPosition.x > 70)
+                    auto = 2;
+                else
+                    auto = 1;
+            }
 
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);

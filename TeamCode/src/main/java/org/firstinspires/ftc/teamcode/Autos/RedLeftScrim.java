@@ -20,6 +20,8 @@ public class RedLeftScrim extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
+        int auto = 1;
+
         //initializes robot
         Hardware robot = new Hardware(hardwareMap);
 
@@ -42,7 +44,25 @@ public class RedLeftScrim extends LinearOpMode
 
             }
         });
-        webcam.setPipeline(new TSEFinder());
+        webcam.setPipeline(new RedFinder());
+
+        while(!isStopRequested() && !isStarted())
+        {
+            if(RedFinder.width < 30)
+                auto = 3;
+            else
+            {
+                if(RedFinder.screenPosition.x > 70)
+                    auto = 2;
+                else
+                    auto = 1;
+            }
+
+            telemetry.addData("Auto", auto);
+            telemetry.addData("X Pos", TSEFinder.screenPosition.x);
+            telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+            telemetry.update();
+        }
 
         waitForStart();
 
