@@ -47,8 +47,8 @@ public class Teleop extends LinearOpMode
             }
             //Spin Outwards
             else if(gamepad1.left_trigger > .05) {
-                robot.intakeMotor.setPower(gamepad1.right_trigger);
-                robot.intakeServo.setPower(-gamepad1.right_trigger);
+                robot.intakeMotor.setPower(gamepad1.left_trigger);
+                robot.intakeServo.setPower(-gamepad1.left_trigger);
                 robot.transferCR1.setPower(-1);
                 robot.transferCR2.setPower(-1);
             }
