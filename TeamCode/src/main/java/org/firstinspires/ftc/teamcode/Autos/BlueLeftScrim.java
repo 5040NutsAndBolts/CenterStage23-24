@@ -18,7 +18,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name = "Blue Left Auto", group = "Autonomous")
 public class BlueLeftScrim extends LinearOpMode
 {
-    int auto = 1;
+    public enum autoNum{
+        left,
+        right,
+        center
+    }
+    autoNum auto = autoNum.left;
     boolean deposited = false;
     boolean banged = false;
 
@@ -52,13 +57,13 @@ public class BlueLeftScrim extends LinearOpMode
         while(!isStopRequested() && !isStarted())
         {
             if(BlueFinder.width < 30)
-                auto = 3;
+                auto = autoNum.right;
             else
             {
                 if(BlueFinder.screenPosition.x > 70)
-                    auto = 2;
+                    auto = autoNum.center;
                 else
-                    auto = 1;
+                    auto = autoNum.left;
             }
 
             telemetry.addData("Auto", auto);
@@ -86,7 +91,7 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //left spike mark
-            if(auto == 1) {
+            if(auto == autoNum.left) {
                 //turn left
                 while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive()) {
                     robot.updatePositionRoadRunner();
@@ -178,12 +183,12 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.robotODrive(0,0,0);
             }
 
-            if(auto == 2)
+            if(auto == autoNum.center)
             {
 
             }
 
-            if(auto == 3)
+            if(auto == autoNum.right)
             {
 
             }

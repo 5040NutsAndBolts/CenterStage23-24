@@ -17,7 +17,12 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name = "Blue Right Auto", group = "Autonomous")
 public class BlueRightScrim extends LinearOpMode
 {
-    int auto = 1;
+    public enum autoNum{
+        left,
+        right,
+        center
+    }
+    autoNum auto = autoNum.left;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -49,13 +54,13 @@ public class BlueRightScrim extends LinearOpMode
         while(!isStopRequested() && !isStarted())
         {
             if(BlueFinder.width < 30)
-                auto = 3;
+                auto = autoNum.right;
             else
             {
                 if(BlueFinder.screenPosition.x > 70)
-                    auto = 2;
+                    auto = autoNum.center;
                 else
-                    auto = 1;
+                    auto = autoNum.left;
             }
 
             telemetry.addData("Auto", auto);
