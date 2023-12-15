@@ -22,6 +22,7 @@ public class BlueLeftScrim extends LinearOpMode
     int auto = 1;
     boolean deposited = false;
     boolean banged = false;
+    boolean stopReseting = false;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -76,7 +77,7 @@ public class BlueLeftScrim extends LinearOpMode
         waitForStart();
 
         //this loop runs after play pressed
-        while(opModeIsActive())
+        while(opModeIsActive() && !stopReseting)
         {
             //strafe right
             while(robot.y > -1.0980085 && opModeIsActive())
@@ -93,7 +94,8 @@ public class BlueLeftScrim extends LinearOpMode
             //left spike mark
             if(auto == 1) {
                 //turn left
-                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive()) {
+                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,0,-.5);
 
@@ -115,7 +117,8 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -13) && opModeIsActive()){
+                while ((robot.y < -13) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
 
@@ -184,7 +187,7 @@ public class BlueLeftScrim extends LinearOpMode
 
                 banged = true;
                 robot.robotODrive(0,0,0);
-            }
+            } //end of auto 1 branch
 
             //center spike mark
             if(auto == 2)
@@ -204,7 +207,7 @@ public class BlueLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit purple pixel
-                while (depositTimer.seconds()<4 && opModeIsActive() && deposited==false)
+                while (depositTimer.seconds()<4 && opModeIsActive() && !deposited)
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
@@ -231,7 +234,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //rotate so deposit faces backdrop
-                while((robot.theta > 4.6 || robot.theta < 1) && opModeIsActive()) {
+                while((robot.theta > 5.0 || robot.theta < 1) && opModeIsActive()) {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,0,.5);
 
@@ -244,7 +247,7 @@ public class BlueLeftScrim extends LinearOpMode
                 //wall wham
                 ElapsedTime bangBangTimer = new ElapsedTime();
                 bangBangTimer.startTime();
-                while (bangBangTimer.seconds() < 0.5 && opModeIsActive() && banged==false)
+                while (bangBangTimer.seconds() < 0.5 && opModeIsActive() && !banged)
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -255,15 +258,89 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.update();
                 }
                 banged = true;
-            }
+            } //end of auto 2 branch
 
             //right spike mark
             if(auto == 3)
             {
+                //turn right
+                while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,.5);
 
-            }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //strafe to spike mark
+                while ((robot.x < 36) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,-.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //slight forward
+                while ((robot.y > 6) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime depositTimer = new ElapsedTime();
+                depositTimer.startTime();
+
+                //deposit pixel
+                while (depositTimer.seconds()<4 && opModeIsActive() && !deposited)
+                {
+                    robot.robotODrive(0, 0, 0);
+                    robot.transferCR1.setPower(-1);
+                    robot.intakeMotor.setPower(1);
+                    robot.intakeServo.setPower(-1);
+
+                    telemetry.addData("time", depositTimer.seconds());
+                    telemetry.update();
+                }
+                deposited = true;
+                robot.transferCR1.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
+
+                //back away
+                //slight forward
+                while ((robot.y < 15) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+
+                //towards wall
+
+                //wham wall
+            } // end of auto 3 branch
 
             robot.robotODrive(0,0,0);
-        }
+
+        } //end of while(opModeIsActive)
+
+        stopReseting = true;
     }
 }
