@@ -17,10 +17,15 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name = "Red Left Auto", group = "Autonomous")
 public class RedLeftScrim extends LinearOpMode
 {
+    public enum autoNum{
+        left,
+        right,
+        center
+    }
     @Override
     public void runOpMode() throws InterruptedException
     {
-        int auto = 1;
+        autoNum auto = autoNum.left;
 
         //initializes robot
         Hardware robot = new Hardware(hardwareMap);
@@ -49,13 +54,13 @@ public class RedLeftScrim extends LinearOpMode
         while(!isStopRequested() && !isStarted())
         {
             if(RedFinder.width < 30)
-                auto = 3;
+                auto = autoNum.right;
             else
             {
                 if(RedFinder.screenPosition.x > 70)
-                    auto = 2;
+                    auto = autoNum.center;
                 else
-                    auto = 1;
+                    auto = autoNum.left;
             }
 
             telemetry.addData("Auto", auto);
