@@ -23,6 +23,7 @@ public class BlueLeftScrim extends LinearOpMode
     boolean deposited = false;
     boolean banged = false;
     boolean stopReseting = false;
+    boolean uwu = true;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -182,11 +183,18 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
                     telemetry.addData("theta", robot.theta);
+                    telemetry.addData("bang Time",bangBangTimer);
+                    telemetry.update();
+                }
+                uwu= false;
+                banged = true;
+                robot.robotODrive(0,0,0);
+
+                while (uwu==false && opModeIsActive()) {
+                    telemetry.addData("in loop?", uwu);
                     telemetry.update();
                 }
 
-                banged = true;
-                robot.robotODrive(0,0,0);
             } //end of auto 1 branch
 
             //center spike mark
@@ -257,7 +265,14 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
+                uwu= false;
                 banged = true;
+                robot.robotODrive(0,0,0);
+
+                while (uwu==false && opModeIsActive()) {
+                    telemetry.addData("in loop?", uwu);
+                    telemetry.update();
+                }
             } //end of auto 2 branch
 
             //right spike mark
@@ -319,7 +334,6 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.intakeServo.setPower(0);
 
                 //back away
-                //slight forward
                 while ((robot.y < 15) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
@@ -331,10 +345,40 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.update();
                 }
 
-
                 //towards wall
+                while ((robot.x > 12) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
 
-                //wham wall
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime bangBangTimer = new ElapsedTime();
+                bangBangTimer.startTime();
+
+                //bang into wall
+                while (bangBangTimer.seconds() < 0.5 && opModeIsActive() && banged==false){
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.addData("bang Time",bangBangTimer);
+                    telemetry.update();
+                }
+                uwu= false;
+                banged = true;
+                robot.robotODrive(0,0,0);
+
+                while (uwu==false && opModeIsActive()) {
+                    telemetry.addData("in loop?", uwu);
+                    telemetry.update();
+                }
             } // end of auto 3 branch
 
             robot.robotODrive(0,0,0);
