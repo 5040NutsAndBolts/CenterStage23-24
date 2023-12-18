@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
+
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
@@ -13,6 +15,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 @Autonomous(name = "Red Right Auto", group = "Autonomous")
 public class RedRightScrim extends LinearOpMode
@@ -28,7 +32,7 @@ public class RedRightScrim extends LinearOpMode
     public void runOpMode() throws InterruptedException
     {
         //initializes robot
-        Hardware robot = new Hardware(hardwareMap);
+        Odometry robot = new Odometry(hardwareMap);
 
         //camera setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -74,7 +78,35 @@ public class RedRightScrim extends LinearOpMode
         //this loop runs after play pressed
         while(opModeIsActive())
         {
+            //strafe right
+            while(robot.y > -1.0980085 && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
 
+                robot.robotODrive(0,.5,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //
+            if(auto == autoNum.right)
+            {
+                while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,.5);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+
+            }
         }
     }
 }

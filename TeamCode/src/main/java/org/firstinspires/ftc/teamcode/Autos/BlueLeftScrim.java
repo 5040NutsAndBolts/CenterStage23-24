@@ -190,11 +190,11 @@ public class BlueLeftScrim extends LinearOpMode
                 banged = true;
                 robot.robotODrive(0,0,0);
 
-                while (uwu==false && opModeIsActive()) {
-                    telemetry.addData("in loop?", uwu);
-                    telemetry.update();
-                }
-
+ //               while (uwu==false && opModeIsActive()) {
+//                    telemetry.addData("in loop?", uwu);
+//                    telemetry.update();
+//                }
+                break;
             } //end of auto 1 branch
 
             //center spike mark
@@ -269,10 +269,12 @@ public class BlueLeftScrim extends LinearOpMode
                 banged = true;
                 robot.robotODrive(0,0,0);
 
-                while (uwu==false && opModeIsActive()) {
-                    telemetry.addData("in loop?", uwu);
-                    telemetry.update();
-                }
+  //              while (uwu==false && opModeIsActive()) {
+  //                  telemetry.addData("in loop?", uwu);
+  //                   telemetry.update();
+
+ //               }
+                break;
             } //end of auto 2 branch
 
             //right spike mark
@@ -375,12 +377,22 @@ public class BlueLeftScrim extends LinearOpMode
                 banged = true;
                 robot.robotODrive(0,0,0);
 
-                while (uwu==false && opModeIsActive()) {
-                    telemetry.addData("in loop?", uwu);
-                    telemetry.update();
-                }
+    //            while (uwu==false && opModeIsActive()) {
+   //                 telemetry.addData("in loop?", uwu);
+    //                telemetry.update();
+     //           }
+                break;
             } // end of auto 3 branch
+            while(robot.y<20)
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.5,0,0);
 
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+
+            }
             robot.robotODrive(0,0,0);
 
         } //end of while(opModeIsActive)
