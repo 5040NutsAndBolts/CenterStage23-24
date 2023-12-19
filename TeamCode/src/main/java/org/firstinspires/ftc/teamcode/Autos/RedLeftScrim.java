@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
-import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
-import org.firstinspires.ftc.teamcode.Hardware;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
+import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -17,16 +16,17 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name = "Red Left Auto", group = "Autonomous")
 public class RedLeftScrim extends LinearOpMode
 {
-    public enum autoNum{
+    public enum autoPos
+    {
         left,
         right,
         center
     }
+    autoPos auto = autoPos.left;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
-        autoNum auto = autoNum.left;
-
         //initializes robot
         Hardware robot = new Hardware(hardwareMap);
 
@@ -51,22 +51,26 @@ public class RedLeftScrim extends LinearOpMode
         });
         webcam.setPipeline(new RedFinder());
 
+        Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
+
         while(!isStopRequested() && !isStarted())
         {
-            if(RedFinder.width < 30)
-                auto = autoNum.right;
+            if(RedFinder.width < 30 || RedFinder.height < 30)
+                auto = autoPos.right;
             else
             {
                 if(RedFinder.screenPosition.x > 70)
-                    auto = autoNum.center;
+                    auto = autoPos.center;
                 else
-                    auto = autoNum.left;
+                    auto = autoPos.left;
             }
 
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);
             telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
             telemetry.update();
+            dashboardTelemetry.addData("Auto", auto);
+            dashboardTelemetry.update();
         }
 
         waitForStart();
@@ -74,7 +78,20 @@ public class RedLeftScrim extends LinearOpMode
         //this loop runs after play pressed
         while(opModeIsActive())
         {
+            if(auto == autoPos.left)
+            {
 
+            }
+
+            if(auto == autoPos.center)
+            {
+
+            }
+
+            if(auto == autoPos.right)
+            {
+
+            }
         }
     }
 }

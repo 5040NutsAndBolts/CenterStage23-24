@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
@@ -19,7 +20,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name = "Blue Left Auto", group = "Autonomous")
 public class BlueLeftScrim extends LinearOpMode
 {
-    int auto = 1;
+    public enum autoPos
+    {
+        left,
+        right,
+        center
+    }
+    autoPos auto = autoPos.left;
+
     boolean deposited = false;
     boolean banged = false;
     boolean stopReseting = false;
@@ -56,14 +64,14 @@ public class BlueLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.width < 30)
-                auto = 3;
+            if(BlueFinder.width < 30 || BlueFinder.height < 30d)
+                auto = autoPos.right;
             else
             {
                 if(BlueFinder.screenPosition.x > 70)
-                    auto = 2;
+                    auto = autoPos.center;
                 else
-                    auto = 1;
+                    auto = autoPos.left;
             }
 
             telemetry.addData("Auto", auto);
@@ -93,7 +101,8 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //left spike mark
-            if(auto == 1) {
+            if(auto == autoPos.left)
+            {
                 //turn left
                 while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
                 {
@@ -118,7 +127,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -13) && opModeIsActive())
+                while ((robot.y < -12) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -143,8 +152,20 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("time", depositTimer.seconds());
                     telemetry.update();
                 }
-
                 deposited = true;
+
+                //back up
+                while ((robot.y > -14) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
                 robot.transferCR1.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
@@ -176,7 +197,7 @@ public class BlueLeftScrim extends LinearOpMode
                 bangBangTimer.startTime();
 
                 //bang into wall
-                while (bangBangTimer.seconds() < 0.5 && opModeIsActive() && banged==false){
+                while (bangBangTimer.seconds() < 0.75 && opModeIsActive() && banged==false){
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
 
@@ -186,19 +207,12 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("bang Time",bangBangTimer);
                     telemetry.update();
                 }
-                uwu= false;
                 banged = true;
-                robot.robotODrive(0,0,0);
 
- //               while (uwu==false && opModeIsActive()) {
-//                    telemetry.addData("in loop?", uwu);
-//                    telemetry.update();
-//                }
-                break;
             } //end of auto 1 branch
 
             //center spike mark
-            if(auto == 2)
+            if(auto == autoPos.center)
             {
                 //drive to spike mark
                 while ((robot.x < 26.5) && opModeIsActive()){
@@ -255,7 +269,7 @@ public class BlueLeftScrim extends LinearOpMode
                 //wall wham
                 ElapsedTime bangBangTimer = new ElapsedTime();
                 bangBangTimer.startTime();
-                while (bangBangTimer.seconds() < 0.5 && opModeIsActive() && !banged)
+                while (bangBangTimer.seconds() < 0.75 && opModeIsActive() && !banged)
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -265,20 +279,12 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
-                uwu= false;
+
                 banged = true;
-                robot.robotODrive(0,0,0);
-
-  //              while (uwu==false && opModeIsActive()) {
-  //                  telemetry.addData("in loop?", uwu);
-  //                   telemetry.update();
-
- //               }
-                break;
             } //end of auto 2 branch
 
             //right spike mark
-            if(auto == 3)
+            if(auto == autoPos.right)
             {
                 //turn right
                 while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
@@ -305,7 +311,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y > 6) && opModeIsActive())
+                while ((robot.y > 5.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -331,9 +337,6 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.update();
                 }
                 deposited = true;
-                robot.transferCR1.setPower(0);
-                robot.intakeMotor.setPower(0);
-                robot.intakeServo.setPower(0);
 
                 //back away
                 while ((robot.y < 15) && opModeIsActive())
@@ -346,6 +349,10 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
+
+                robot.transferCR1.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
 
                 //towards wall
                 while ((robot.x > 12) && opModeIsActive())
@@ -363,7 +370,7 @@ public class BlueLeftScrim extends LinearOpMode
                 bangBangTimer.startTime();
 
                 //bang into wall
-                while (bangBangTimer.seconds() < 0.5 && opModeIsActive() && banged==false){
+                while (bangBangTimer.seconds() < 0.75 && opModeIsActive() && banged==false){
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
 
@@ -373,27 +380,85 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("bang Time",bangBangTimer);
                     telemetry.update();
                 }
-                uwu= false;
                 banged = true;
-                robot.robotODrive(0,0,0);
-
-    //            while (uwu==false && opModeIsActive()) {
-   //                 telemetry.addData("in loop?", uwu);
-    //                telemetry.update();
-     //           }
-                break;
             } // end of auto 3 branch
-            while(robot.y<20)
+
+            robot.odom.setPoseEstimate(new Pose2d(0, robot.y, 3 * Math.PI / 2));
+
+            //strafe away from wall
+            while ((robot.x < 14) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
-                robot.robotODrive(.5,0,0);
+                robot.robotODrive(0,-.5,0);
 
                 telemetry.addData("x", robot.x);
                 telemetry.addData("y", robot.y);
                 telemetry.addData("theta", robot.theta);
-
+                telemetry.update();
             }
+
+            //approach backdrop
+            while ((robot.y < 16) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.25 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //line up with backdrop
+            while ((robot.x < 25) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(0,-.5,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //get to backdrop (this is what happens whe no side rollers)
+            while ((robot.y < 27) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.5 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //forward away from backdrop
+            while ((robot.y > 24) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(-.5 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //strafe to wall
+
+            //back into parking zone
+
             robot.robotODrive(0,0,0);
+            uwu = false;
+            while (uwu==false && opModeIsActive())
+            {
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.addData("in loop?", uwu);
+                telemetry.update();
+            }
 
         } //end of while(opModeIsActive)
 

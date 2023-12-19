@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
-import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
 import org.firstinspires.ftc.teamcode.Hardware;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -17,12 +15,13 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name = "Blue Right Auto", group = "Autonomous")
 public class BlueRightScrim extends LinearOpMode
 {
-    public enum autoNum{
+    public enum autoPos
+    {
         left,
         right,
         center
     }
-    autoNum auto = autoNum.left;
+    autoPos auto = autoPos.left;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -51,22 +50,26 @@ public class BlueRightScrim extends LinearOpMode
         });
         webcam.setPipeline(new BlueFinder());
 
+        Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
+
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.width < 30)
-                auto = autoNum.right;
+            if((BlueFinder.height < 30 || BlueFinder.width < 30) || BlueFinder.screenPosition.x < 20)
+                auto = autoPos.left;
             else
             {
-                if(BlueFinder.screenPosition.x > 70)
-                    auto = autoNum.center;
+                if(BlueFinder.screenPosition.x < 100)
+                    auto = autoPos.center;
                 else
-                    auto = autoNum.left;
+                    auto = autoPos.right;
             }
 
             telemetry.addData("Auto", auto);
-            telemetry.addData("X Pos", TSEFinder.screenPosition.x);
-            telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+            telemetry.addData("X Pos", BlueFinder.screenPosition.x);
+            telemetry.addData("Y Pos", BlueFinder.screenPosition.y);
             telemetry.update();
+            dashboardTelemetry.addData("Auto", auto);
+            dashboardTelemetry.update();
         }
 
         waitForStart();
@@ -74,7 +77,20 @@ public class BlueRightScrim extends LinearOpMode
         //this loop runs after play pressed
         while(opModeIsActive())
         {
+            if(auto == autoPos.left)
+            {
 
+            }
+
+            if(auto == autoPos.center)
+            {
+
+            }
+
+            if(auto == autoPos.right)
+            {
+
+            }
         }
     }
 }
