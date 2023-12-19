@@ -215,7 +215,8 @@ public class BlueLeftScrim extends LinearOpMode
             if(auto == autoPos.center)
             {
                 //drive to spike mark
-                while ((robot.x < 26.5) && opModeIsActive()){
+                while ((robot.x < 26.5) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.5,0,0);
 
@@ -245,7 +246,8 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.intakeServo.setPower(0);
 
                 //back away from spike mark
-                while ((robot.x > 10) && opModeIsActive()){
+                while ((robot.x > 10) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(.5,0,0);
 
@@ -370,7 +372,8 @@ public class BlueLeftScrim extends LinearOpMode
                 bangBangTimer.startTime();
 
                 //bang into wall
-                while (bangBangTimer.seconds() < 0.75 && opModeIsActive() && banged==false){
+                while (bangBangTimer.seconds() < 0.75 && opModeIsActive() && banged==false)
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
 
