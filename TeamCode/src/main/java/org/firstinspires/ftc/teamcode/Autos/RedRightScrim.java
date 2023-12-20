@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -82,7 +83,7 @@ public class RedRightScrim extends LinearOpMode
         while(opModeIsActive())
         {
             //strafe left
-            while (robot.y < 0.75 && opModeIsActive())
+            while (robot.y < 2 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0, -.25, 0);
@@ -288,11 +289,197 @@ public class RedRightScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
+
+                //slight forward
+                while ((robot.y > 11) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime depositTimer = new ElapsedTime();
+                depositTimer.startTime();
+
+                //deposit purple pixel
+                while (depositTimer.seconds()<4 && opModeIsActive())
+                {
+                    robot.robotODrive(0, 0, 0);
+                    robot.transferCR1.setPower(-1);
+                    robot.intakeMotor.setPower(1);
+                    robot.intakeServo.setPower(-1);
+
+                    telemetry.addData("time", depositTimer.seconds());
+                    telemetry.update();
+                }
+
+                //back up
+                while ((robot.y < 13) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                robot.transferCR1.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
+
+                //strafe towards wall
+                while ((robot.x > 20) && opModeIsActive()){
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //turn left
+                while((robot.theta < 1.5 || robot.theta > 4) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,-.5);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime bangBangTimer = new ElapsedTime();
+                bangBangTimer.startTime();
+
+                //bang into wall
+                while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,-.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.addData("bang Time",bangBangTimer);
+                    telemetry.update();
+                }
             }
+
+            //update robots position based on being pressed against wall
+            robot.odom.setPoseEstimate(new Pose2d(0, robot.y, Math.PI / 2));
+            robot.updatePositionRoadRunner();
+
+            //strafe away from wall
+            while ((robot.x < 5) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(0,.5,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            ElapsedTime timeOut = new ElapsedTime();
+            timeOut.startTime();
+
+            //approach backdrop until robot sees line or hits timeout
+            while (timeOut.seconds() < 5 && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.25 ,0,0);
+
+                //stop moving and reset position when robot sees line
+                if(robot.lineSensor.red() > 80)
+                {
+                    robot.robotODrive(0,0,0);
+                    robot.updatePositionRoadRunner();
+                    robot.odom.setPoseEstimate(new Pose2d(robot.x, -35, robot.theta));
+                    robot.updatePositionRoadRunner();
+                    break;
+                }
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //line up with backdrop
+            while ((robot.x < 25) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(0,.5,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //get to backdrop
+            while ((robot.y > -44) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.25 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //away from backdrop
+            while ((robot.y < -30) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(-.5 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //towards wall
+            while ((robot.x > 10) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(0,-.5,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //into park
+            while ((robot.y > -53) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.5 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            robot.robotODrive(0,0,0);
 
             while(true && opModeIsActive())
             {
-                robot.robotODrive(0,0,0);
+                telemetry.addLine("program done");
+                telemetry.update();
             }
         }
     }
