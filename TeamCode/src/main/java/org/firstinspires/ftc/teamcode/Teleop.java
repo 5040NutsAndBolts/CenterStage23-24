@@ -76,4 +76,6 @@ public class Teleop extends LinearOpMode
             //Telemetry
             telemetry.addData("slide height", robot.transferM1.getCurrentPosition());
             telemetry.update();
-        }}}
+        }
+    }
+}

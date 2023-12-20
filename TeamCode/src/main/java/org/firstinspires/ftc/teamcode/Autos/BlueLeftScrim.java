@@ -388,19 +388,7 @@ public class BlueLeftScrim extends LinearOpMode
 
             //resets where the robot thinks it is based on being pressed against the wall
             robot.odom.setPoseEstimate(new Pose2d(0, robot.y, 3 * Math.PI / 2));
-
-            //old testing code I'll kill later
-            /*robot.robotODrive(0,0,0);
-            robot.softBrake();
-
-            while(true && opModeIsActive())
-            {
-                robot.updatePositionRoadRunner();
-                telemetry.addData("x", robot.x);
-                telemetry.addData("y", robot.y);
-                telemetry.addData("theta", robot.theta);
-                telemetry.update();
-            }*/
+            robot.updatePositionRoadRunner();
 
             //strafe away from wall
             while ((robot.x < 5) && opModeIsActive())
@@ -429,6 +417,7 @@ public class BlueLeftScrim extends LinearOpMode
                     robot.robotODrive(0,0,0);
                     robot.updatePositionRoadRunner();
                     robot.odom.setPoseEstimate(new Pose2d(robot.x, 35, robot.theta));
+                    robot.updatePositionRoadRunner();
                     break;
                 }
 
@@ -439,7 +428,7 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //line up with backdrop
-            while ((robot.x < 15) && opModeIsActive())
+            while ((robot.x < 20) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,-.5,0);
@@ -451,10 +440,10 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //get to backdrop (this is what happens whe no side rollers)
-            while ((robot.y < 40) && opModeIsActive())
+            while ((robot.y < 44) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
-                robot.robotODrive(.5 ,0,0);
+                robot.robotODrive(.25 ,0,0);
 
                 telemetry.addData("x", robot.x);
                 telemetry.addData("y", robot.y);
@@ -475,17 +464,34 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //strafe to wall
-
-            //back into parking zone
-
-            robot.robotODrive(0,0,0);
-            uwu = false;
-            while (uwu==false && opModeIsActive())
+            while ((robot.x > 5) && opModeIsActive())
             {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(0,.5,0);
+
                 telemetry.addData("x", robot.x);
                 telemetry.addData("y", robot.y);
                 telemetry.addData("theta", robot.theta);
-                telemetry.addData("in loop?", uwu);
+                telemetry.update();
+            }
+
+            //back into parking zone
+            while ((robot.y < 52) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.25 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            robot.robotODrive(0,0,0);
+
+            while(true && opModeIsActive())
+            {
+                telemetry.addLine("program done");
                 telemetry.update();
             }
 
