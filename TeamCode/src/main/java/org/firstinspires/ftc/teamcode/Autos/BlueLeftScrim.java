@@ -386,10 +386,24 @@ public class BlueLeftScrim extends LinearOpMode
                 banged = true;
             } // end of auto 3 branch
 
+            //resets where the robot thinks it is based on being pressed against the wall
             robot.odom.setPoseEstimate(new Pose2d(0, robot.y, 3 * Math.PI / 2));
 
+            //old testing code I'll kill later
+            /*robot.robotODrive(0,0,0);
+            robot.softBrake();
+
+            while(true && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }*/
+
             //strafe away from wall
-            while ((robot.x < 14) && opModeIsActive())
+            while ((robot.x < 5) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,-.5,0);
@@ -400,11 +414,23 @@ public class BlueLeftScrim extends LinearOpMode
                 telemetry.update();
             }
 
-            //approach backdrop
-            while ((robot.y < 16) && opModeIsActive())
+            ElapsedTime timeOut = new ElapsedTime();
+            timeOut.startTime();
+
+            //approach backdrop until robot sees line or hits timeout
+            while (timeOut.seconds() < 5 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.25 ,0,0);
+
+                //stop moving and reset position when robot sees line
+                if(robot.lineSensor.blue() > 175)
+                {
+                    robot.robotODrive(0,0,0);
+                    robot.updatePositionRoadRunner();
+                    robot.odom.setPoseEstimate(new Pose2d(robot.x, 35, robot.theta));
+                    break;
+                }
 
                 telemetry.addData("x", robot.x);
                 telemetry.addData("y", robot.y);
@@ -413,7 +439,7 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //line up with backdrop
-            while ((robot.x < 25) && opModeIsActive())
+            while ((robot.x < 15) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,-.5,0);
@@ -425,7 +451,7 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //get to backdrop (this is what happens whe no side rollers)
-            while ((robot.y < 27) && opModeIsActive())
+            while ((robot.y < 40) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.5 ,0,0);
@@ -437,7 +463,7 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //forward away from backdrop
-            while ((robot.y > 24) && opModeIsActive())
+            while ((robot.y > 35) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(-.5 ,0,0);

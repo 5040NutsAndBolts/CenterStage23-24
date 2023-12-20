@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 public class Hardware {
     //Drive Motors Declaration
@@ -28,6 +29,9 @@ public class Hardware {
     //Deposit Servos Declaration
     public Servo depositServoOne;
     public Servo depositServoTwo;
+
+    //Line sensor
+    public ColorSensor lineSensor;
 
     //Odometry Helper Class Variables
     public double x = 0, y = 0, theta = 0;
@@ -88,6 +92,9 @@ public class Hardware {
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //color sensor
+        lineSensor = hardwareMap.get(ColorSensor.class, "Line Sensor");
     }
 
     //robot-oriented drive method
