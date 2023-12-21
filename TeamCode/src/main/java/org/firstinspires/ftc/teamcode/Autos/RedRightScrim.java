@@ -28,6 +28,8 @@ public class RedRightScrim extends LinearOpMode
     }
     autoPos auto = autoPos.left;
 
+    public boolean lineSeen;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -394,7 +396,7 @@ public class RedRightScrim extends LinearOpMode
             timeOut.startTime();
 
             //approach backdrop until robot sees line or hits timeout
-            while (timeOut.seconds() < 5 && opModeIsActive())
+            while (timeOut.seconds() < 3 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.25 ,0,0);
@@ -406,6 +408,7 @@ public class RedRightScrim extends LinearOpMode
                     robot.updatePositionRoadRunner();
                     robot.odom.setPoseEstimate(new Pose2d(robot.x, -35, robot.theta));
                     robot.updatePositionRoadRunner();
+                    lineSeen = true;
                     break;
                 }
 
@@ -415,8 +418,19 @@ public class RedRightScrim extends LinearOpMode
                 telemetry.update();
             }
 
+            //stops the robot in the park zone if it couldn't reset on the line
+            if(!lineSeen)
+            {
+                while(true && opModeIsActive())
+                {
+                    telemetry.addLine("Couldn't fine line, parking early");
+                    telemetry.update();
+                }
+            }
+
             //line up with backdrop
-            while ((robot.x < 25) && opModeIsActive())
+            //uniform code
+            /*while ((robot.x < 25) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,.5,0);
@@ -425,7 +439,52 @@ public class RedRightScrim extends LinearOpMode
                 telemetry.addData("y", robot.y);
                 telemetry.addData("theta", robot.theta);
                 telemetry.update();
+            }*/
+
+            //line up with backdrop according to randomization
+            if(auto == autoPos.left)
+            {
+                while ((robot.x < 19) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
             }
+
+            if(auto == autoPos.center)
+            {
+                while ((robot.x < 22) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+            }
+
+            if(auto == autoPos.right)
+            {
+                while ((robot.x < 25) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+            }
+
+            //raise slides here
 
             //get to backdrop
             while ((robot.y > -44) && opModeIsActive())
@@ -438,6 +497,8 @@ public class RedRightScrim extends LinearOpMode
                 telemetry.addData("theta", robot.theta);
                 telemetry.update();
             }
+
+            //drop pixel here
 
             //away from backdrop
             while ((robot.y < -30) && opModeIsActive())
