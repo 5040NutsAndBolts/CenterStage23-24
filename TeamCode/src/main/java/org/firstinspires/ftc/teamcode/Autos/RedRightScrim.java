@@ -77,6 +77,7 @@ public class RedRightScrim extends LinearOpMode
             dashboardTelemetry.update();
         }
 
+        robot.resetOdometry(0,0,0);
         waitForStart();
 
         //this loop runs after play pressed

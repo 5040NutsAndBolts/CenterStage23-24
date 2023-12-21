@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.Autos;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
 import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -27,7 +30,7 @@ public class BlueRightScrim extends LinearOpMode
     public void runOpMode() throws InterruptedException
     {
         //initializes robot
-        Hardware robot = new Hardware(hardwareMap);
+        Odometry robot = new Odometry(hardwareMap);
 
         //camera setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -72,14 +75,116 @@ public class BlueRightScrim extends LinearOpMode
             dashboardTelemetry.update();
         }
 
+        robot.resetOdometry(0,0,0);
         waitForStart();
 
         //this loop runs after play pressed
         while(opModeIsActive())
         {
+            //strafe left
+            while(robot.y < 1 && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(0,-.5,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
             if(auto == autoPos.left)
             {
+                //turn left
+                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,-.5);
 
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //strafe to spike mark
+                while ((robot.x < 38) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //slight forward
+                while ((robot.y < -6) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime depositTimer = new ElapsedTime();
+                depositTimer.startTime();
+
+                //deposit pixel
+                while (depositTimer.seconds()<3 && opModeIsActive())
+                {
+                    robot.robotODrive(0, 0, 0);
+                    robot.transferCR1.setPower(-1);
+                    robot.intakeMotor.setPower(1);
+                    robot.intakeServo.setPower(-1);
+
+                    telemetry.addData("time", depositTimer.seconds());
+                    telemetry.update();
+                }
+
+                //back up
+                while ((robot.y > -14) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                robot.transferCR1.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
+
+                //strafe
+                while ((robot.x < 58) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //slight forward
+                while ((robot.y < 80) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.5 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
             }
 
             if(auto == autoPos.center)
@@ -90,6 +195,11 @@ public class BlueRightScrim extends LinearOpMode
             if(auto == autoPos.right)
             {
 
+            }
+
+            while(true && opModeIsActive())
+            {
+                robot.robotODrive(0,0,0);
             }
         }
     }
