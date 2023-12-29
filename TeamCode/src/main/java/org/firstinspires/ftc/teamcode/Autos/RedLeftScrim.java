@@ -99,7 +99,7 @@ public class RedLeftScrim extends LinearOpMode
             while (robot.y > -2 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
-                robot.robotODrive(0, .25, 0);
+                robot.robotODrive(0, .5, 0);
 
                 telemetry.addData("x", robot.x);
                 telemetry.addData("y", robot.y);

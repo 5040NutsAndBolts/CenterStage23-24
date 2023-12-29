@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "A Teleop", group = "Teleop")
@@ -19,24 +20,27 @@ public class Teleop extends LinearOpMode
 
             //Transfer Code --
             //slides go up proportionally to stick value
-            if (gamepad2.left_stick_y < -.05) {
+            if (gamepad2.left_stick_y < -.05)
+            {
+                robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 robot.transferM1.setPower(-gamepad2.left_stick_y);
-                robot.transferM2.setPower(gamepad2.left_stick_y);
             }
             //Slides go down at full power
-            else if(gamepad2.left_stick_y > .05) {
-                robot.transferM1.setPower(-.85);
-                robot.transferM2.setPower(.85);
+            else if(gamepad2.left_stick_y > .05)
+            {
+                if(robot.transferM1.getCurrentPosition() < 50)
+                {
+                    robot.transferM1.setPower(0);
+                    robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                }
+                else
+                    robot.transferM1.setPower(-gamepad2.left_stick_y * .15);
             }
             //zeropowerbehaviour redundancy
-            else {
+            else
                 robot.transferM1.setPower(0);
-                robot.transferM2.setPower(0);
-            }
+
             // -- End Transfer code
-
-
-
 
             //Drone Launcher Code --
             //Spins the servo for 1 second

@@ -69,10 +69,10 @@ public class Hardware {
 
         //Transfer Motor Config -- Raise motor
         transferM1 = hardwareMap.get(DcMotorEx.class, "Transfer Motor 1");
-        transferM2 = hardwareMap.get(DcMotorEx.class, "Transfer Motor 2");
+        //transferM2 = hardwareMap.get(DcMotorEx.class, "Transfer Motor 2");
 
         transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         transferM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         transferM1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

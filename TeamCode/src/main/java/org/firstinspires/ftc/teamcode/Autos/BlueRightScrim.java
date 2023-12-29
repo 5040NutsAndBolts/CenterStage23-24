@@ -61,7 +61,7 @@ public class BlueRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if((BlueFinder.height < 30 || BlueFinder.width < 30) || BlueFinder.screenPosition.x < 20)
+            if((BlueFinder.height < 30 || BlueFinder.width < 50) || BlueFinder.screenPosition.x < 20)
                 auto = autoPos.left;
             else
             {
