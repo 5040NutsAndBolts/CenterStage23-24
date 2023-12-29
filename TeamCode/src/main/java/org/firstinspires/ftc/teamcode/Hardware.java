@@ -21,6 +21,8 @@ public class Hardware {
     public DcMotorEx transferM2;
     public CRServo transferCR1;
     public CRServo transferCR2;
+    //Drone Launcher Servo Declaration
+    public CRServo droneLaunch;
 
     //Intake Servos Declaration
     public CRServo intakeServo;
@@ -80,6 +82,8 @@ public class Hardware {
         intakeMotor = hardwareMap.get(DcMotor.class, "Intake Motor");
         transferCR1 = hardwareMap.get(CRServo.class, "Transfer Servo 1");
         transferCR2 = hardwareMap.get(CRServo.class, "Transfer Servo 2");
+        //Drone Launcher Config
+        droneLaunch = hardwareMap.get(CRServo.class, "Drone Launcher");
 
         //Deposit Servo Config
         depositServoOne = hardwareMap.get(Servo.class, "Right Deposit");
