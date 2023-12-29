@@ -14,6 +14,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -27,6 +29,8 @@ public class RedRightScrim extends LinearOpMode
         center
     }
     autoPos auto = autoPos.left;
+
+    public boolean lineSeen;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -59,15 +63,15 @@ public class RedRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if((RedFinder.height < 30 || RedFinder.width < 30) || RedFinder.screenPosition.x < 20)
-                auto = autoPos.left;
-            else
+            if((RedFinder.height < 50) || RedFinder.screenPosition.x < 20)
             {
-                if(RedFinder.screenPosition.x < 100)
-                    auto = autoPos.center;
-                else
+                if(RedFinder.height < 70)
                     auto = autoPos.right;
+                else
+                    auto = autoPos.left;
             }
+            else
+                auto = autoPos.center;
 
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);
@@ -77,16 +81,17 @@ public class RedRightScrim extends LinearOpMode
             dashboardTelemetry.update();
         }
 
+        robot.resetOdometry(0,0,0);
         waitForStart();
 
         //this loop runs after play pressed
         while(opModeIsActive())
         {
             //strafe left
-            while (robot.y < 2 && opModeIsActive())
+            while (robot.y < 1.5 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
-                robot.robotODrive(0, -.25, 0);
+                robot.robotODrive(0, -.5, 0);
 
                 telemetry.addData("x", robot.x);
                 telemetry.addData("y", robot.y);
@@ -178,10 +183,10 @@ public class RedRightScrim extends LinearOpMode
                 bangBangTimer.startTime();
 
                 //bang into wall
-                while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
+                while (bangBangTimer.seconds() < 2 && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.25,0);
+                    robot.robotODrive(0,-.15,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -393,7 +398,7 @@ public class RedRightScrim extends LinearOpMode
             timeOut.startTime();
 
             //approach backdrop until robot sees line or hits timeout
-            while (timeOut.seconds() < 5 && opModeIsActive())
+            while (timeOut.seconds() < 3 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.25 ,0,0);
@@ -405,6 +410,7 @@ public class RedRightScrim extends LinearOpMode
                     robot.updatePositionRoadRunner();
                     robot.odom.setPoseEstimate(new Pose2d(robot.x, -35, robot.theta));
                     robot.updatePositionRoadRunner();
+                    lineSeen = true;
                     break;
                 }
 
@@ -414,20 +420,71 @@ public class RedRightScrim extends LinearOpMode
                 telemetry.update();
             }
 
-            //line up with backdrop
-            while ((robot.x < 25) && opModeIsActive())
+            //stops the robot in the park zone if it couldn't reset on the line
+            if(!lineSeen)
             {
-                robot.updatePositionRoadRunner();
-                robot.robotODrive(0,.5,0);
-
-                telemetry.addData("x", robot.x);
-                telemetry.addData("y", robot.y);
-                telemetry.addData("theta", robot.theta);
-                telemetry.update();
+                while(true && opModeIsActive())
+                {
+                    telemetry.addLine("Couldn't fine line, parking early");
+                    telemetry.update();
+                }
             }
 
+            //line up with backdrop according to randomization
+            if(auto == autoPos.left)
+            {
+                while ((robot.x < 33) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+            }
+
+            if(auto == autoPos.center)
+            {
+                while ((robot.x < 29) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+            }
+
+            if(auto == autoPos.right)
+            {
+                while ((robot.x < 26) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+            }
+
+            robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //raise slides
+            while(robot.transferM1.getCurrentPosition() < 1200 && opModeIsActive())
+            {
+                robot.robotODrive(0,0,0);
+                robot.transferM1.setPower(1);
+            }
+
+            robot.transferM1.setPower(.25);
+
             //get to backdrop
-            while ((robot.y > -44) && opModeIsActive())
+            while ((robot.y > -46) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.25 ,0,0);
@@ -436,6 +493,25 @@ public class RedRightScrim extends LinearOpMode
                 telemetry.addData("y", robot.y);
                 telemetry.addData("theta", robot.theta);
                 telemetry.update();
+            }
+
+            ElapsedTime pause = new ElapsedTime();
+            pause.startTime();
+            while(pause.seconds() < 2)
+            {
+                robot.robotODrive(0,0,0);
+            }
+
+            //deposit pixel
+            robot.depositServoOne.setPosition(.5);
+            robot.depositServoTwo.setPosition(.5);
+
+            //wait at backdrop
+            pause.reset();
+            pause.startTime();
+            while(pause.seconds() < 2)
+            {
+                robot.robotODrive(0,0,0);
             }
 
             //away from backdrop
@@ -450,8 +526,20 @@ public class RedRightScrim extends LinearOpMode
                 telemetry.update();
             }
 
+            //closes deposit
+            robot.depositServoOne.setPosition(0);
+            robot.depositServoTwo.setPosition(0);
+
+            robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            //lowers slides
+            while(robot.transferM1.getCurrentPosition() > 200 && opModeIsActive())
+            {
+                robot.robotODrive(0,0,0);
+                robot.transferM1.setPower(-.05);
+            }
+
             //towards wall
-            while ((robot.x > 10) && opModeIsActive())
+            while ((robot.x > 8) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,-.5,0);
