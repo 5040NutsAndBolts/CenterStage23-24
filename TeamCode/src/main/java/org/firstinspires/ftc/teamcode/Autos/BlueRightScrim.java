@@ -135,7 +135,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -6) && opModeIsActive())
+                while ((robot.y < -5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);

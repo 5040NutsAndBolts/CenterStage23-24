@@ -18,7 +18,6 @@ public class Hardware {
     public DcMotorEx backRight;
     //Transfer Motors and Servos Declaration
     public DcMotorEx transferM1;
-    public DcMotorEx transferM2;
     public CRServo transferCR1;
     public CRServo transferCR2;
     //Drone Launcher Servo Declaration

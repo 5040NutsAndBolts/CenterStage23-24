@@ -24,8 +24,6 @@ public class Teleop extends LinearOpMode
             {
                 robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 robot.transferM1.setPower(-gamepad2.left_stick_y);
-                //robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                //robot.transferM2.setPower(-gamepad2.left_stick_y);
             }
             //Slides go down at full power
             else if(gamepad2.left_stick_y > .05)
@@ -33,12 +31,9 @@ public class Teleop extends LinearOpMode
                 if(robot.transferM1.getCurrentPosition() < 150) {
                     robot.transferM1.setPower(0);
                     robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    //robot.transferM2.setPower(0);
-                    //robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 }
                 else{
                     robot.transferM1.setPower(-gamepad2.left_stick_y * .15);
-                    //robot.transferM2.setPower(-gamepad2.left_stick_y * .15);
                     }
             }
             //zeropowerbehaviour redundancy
@@ -48,7 +43,7 @@ public class Teleop extends LinearOpMode
 
             //Drone Launcher Code --
             //Spins the servo for 1 second
-            if (gamepad2.b) {
+            if (gamepad2.y) {
                 //Creates an elapsed timer
                 ElapsedTime timer = new ElapsedTime();
                 timer.startTime();
