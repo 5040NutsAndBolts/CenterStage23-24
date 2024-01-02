@@ -78,7 +78,7 @@ public class Teleop extends LinearOpMode
             }
             // -- End Intake Code
 
-
+//
             //Deposit code --
             if (gamepad2.right_trigger > 0.05)
                 robot.depositServoOne.setPosition(.5);

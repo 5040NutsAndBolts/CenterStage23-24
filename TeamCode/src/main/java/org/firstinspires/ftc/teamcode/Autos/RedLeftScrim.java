@@ -118,7 +118,7 @@ public class RedLeftScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
-
+//
                 //strafe to spike mark
                 while ((robot.x < 38) && opModeIsActive()){
                     robot.updatePositionRoadRunner();
