@@ -61,15 +61,13 @@ public class RedLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(RedFinder.width < 30 || RedFinder.height < 30)
-                auto = autoPos.right;
+            //find correct auto to run
+            if (RedFinder.width<=90 && RedFinder.height<=90)
+                auto=autoPos.right;
+            else if (RedFinder.width>=90)
+                auto=autoPos.center;
             else
-            {
-                if(RedFinder.screenPosition.x > 70)
-                    auto = autoPos.center;
-                else
-                    auto = autoPos.left;
-            }
+                auto=autoPos.left;
 
             //park toggle
             if(gamepad1.a && !aPressed)
