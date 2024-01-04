@@ -20,37 +20,46 @@ public class Teleop extends LinearOpMode
 
             //Transfer Code --
             //slides go up proportionally to stick value
-            if (gamepad2.left_stick_y < -.05)
+            if (gamepad1.right_stick_y < -.05)
             {
                 robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                robot.transferM1.setPower(-gamepad2.left_stick_y);
+                robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                robot.transferM1.setPower(-gamepad1.right_stick_y);
+                robot.transferM2.setPower(-gamepad1.right_stick_y);
             }
-            //Slides go down at full power
-            else if(gamepad2.left_stick_y > .05)
+            //Slides go down at reduced speed
+            else if(gamepad1.right_stick_y > .05)
             {
                 if(robot.transferM1.getCurrentPosition() < 50)
                 {
                     robot.transferM1.setPower(0);
+                    robot.transferM2.setPower(0);
                     robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 }
                 else
-                    robot.transferM1.setPower(-gamepad2.left_stick_y * .15);
+                {
+                    robot.transferM1.setPower(-gamepad1.right_stick_y * .15);
+                    robot.transferM2.setPower(-gamepad1.right_stick_y * .15);
+                }
             }
-            //zeropowerbehaviour redundancy
             else
+            {
                 robot.transferM1.setPower(0);
-
+                robot.transferM2.setPower(0);
+            }
             // -- End Transfer code
 
             //Drone Launcher Code --
             //Spins the servo for 1 second
-            if (gamepad2.b) {
+            if (gamepad1.b)
+            {
                 //Creates an elapsed timer
                 ElapsedTime timer = new ElapsedTime();
                 timer.startTime();
                 //While 1 second mark has not passed
                 while(timer.seconds() < 1)
-                    robot.droneLaunch.setPower(1);
+                    robot.droneLaunch.setPower(-1);
                 robot.droneLaunch.setPower(0); //Redundancy for zeroPowerBehaviour
             }
             //-- End Drone Launcher Code
@@ -81,11 +90,11 @@ public class Teleop extends LinearOpMode
 
 
             //Deposit code --
-            if (gamepad2.right_trigger > 0.05)
+            if (gamepad1.right_bumper)
                 robot.depositServoOne.setPosition(.5);
              else
                 robot.depositServoOne.setPosition(0);
-            if (gamepad2.left_trigger > 0.05)
+            if (gamepad1.left_bumper)
                 robot.depositServoTwo.setPosition(.5);
              else
                 robot.depositServoTwo.setPosition(0);
