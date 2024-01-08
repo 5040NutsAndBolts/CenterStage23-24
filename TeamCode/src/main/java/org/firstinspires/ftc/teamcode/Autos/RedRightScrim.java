@@ -63,15 +63,17 @@ public class RedRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if((RedFinder.height < 50) || RedFinder.screenPosition.x < 20)
+            if((RedFinder.height < 40) || RedFinder.screenPosition.x < 20)
             {
-                if(RedFinder.height < 70)
-                    auto = autoPos.right;
-                else
-                    auto = autoPos.left;
+                auto = autoPos.left;
             }
             else
-                auto = autoPos.center;
+            {
+                if(RedFinder.screenPosition.x < 80)
+                    auto = autoPos.center;
+                else
+                    auto = autoPos.right;
+            }
 
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);

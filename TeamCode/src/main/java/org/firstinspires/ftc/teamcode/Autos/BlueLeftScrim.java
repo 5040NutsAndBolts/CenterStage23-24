@@ -26,7 +26,7 @@ public class BlueLeftScrim extends LinearOpMode
         right,
         center
     }
-    autoPos auto = autoPos.left;
+    autoPos auto = autoPos.right;
 
     public boolean lineSeen;
 
@@ -61,7 +61,7 @@ public class BlueLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.width < 55 || BlueFinder.height < 30)
+            if(BlueFinder.width < 60 || BlueFinder.height < 30)
                 auto = autoPos.right;
             else
             {

@@ -24,7 +24,7 @@ public class RedLeftScrim extends LinearOpMode
         right,
         center
     }
-    autoPos auto = autoPos.left;
+    autoPos auto = autoPos.right;
 
     //park toggle variables
     public boolean park = true;

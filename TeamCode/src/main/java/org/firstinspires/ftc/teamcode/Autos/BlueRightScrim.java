@@ -65,7 +65,7 @@ public class BlueRightScrim extends LinearOpMode
                 auto = autoPos.left;
             else
             {
-                if(BlueFinder.screenPosition.x < 100)
+                if(BlueFinder.screenPosition.x > 100)
                     auto = autoPos.center;
                 else
                     auto = autoPos.right;
