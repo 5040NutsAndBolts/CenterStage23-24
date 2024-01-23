@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "A Teleop", group = "Teleop")
 public class Teleop extends LinearOpMode
@@ -13,30 +15,54 @@ public class Teleop extends LinearOpMode
         waitForStart();
         while(opModeIsActive())
         {
-
             //Drivetrain code
             robot.robotODrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
             //Transfer Code --
-            //Slides go up, joystick backwards for some reason
-            if (gamepad2.left_stick_y < -.05)
+            //slides go up proportionally to stick value
+            if (gamepad1.right_stick_y < -.05)
             {
-                robot.transferM1.setPower(-1);
-                robot.transferM2.setPower(1);
+                robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                robot.transferM1.setPower(-gamepad1.right_stick_y);
+                robot.transferM2.setPower(-gamepad1.right_stick_y);
             }
-            //slides go down joystick still backwards
-            else if (gamepad2.left_stick_y > .05 && robot.transferM1.getCurrentPosition() < -50)
+            //Slides go down at reduced speed
+            else if(gamepad1.right_stick_y > .05)
             {
-                robot.transferM1.setPower(.25);
-                robot.transferM2.setPower(-.25);
+                if(robot.transferM1.getCurrentPosition() < 50)
+                {
+                    robot.transferM1.setPower(0);
+                    robot.transferM2.setPower(0);
+                    robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                }
+                else
+                {
+                    robot.transferM1.setPower(-gamepad1.right_stick_y * .15);
+                    robot.transferM2.setPower(-gamepad1.right_stick_y * .15);
+                }
             }
-            //slides hold
             else
             {
                 robot.transferM1.setPower(0);
                 robot.transferM2.setPower(0);
             }
             // -- End Transfer code
+
+            //Drone Launcher Code --
+            //Spins the servo for 1 second
+            if (gamepad1.b)
+            {
+                //Creates an elapsed timer
+                ElapsedTime timer = new ElapsedTime();
+                timer.startTime();
+                //While 1 second mark has not passed
+                while(timer.seconds() < 1)
+                    robot.droneLaunch.setPower(-1);
+                robot.droneLaunch.setPower(0); //Redundancy for zeroPowerBehaviour
+            }
+            //-- End Drone Launcher Code
 
             //Intake code --
             //Spin Inwards
@@ -48,8 +74,8 @@ public class Teleop extends LinearOpMode
             }
             //Spin Outwards
             else if(gamepad1.left_trigger > .05) {
-                robot.intakeMotor.setPower(gamepad1.right_trigger);
-                robot.intakeServo.setPower(-gamepad1.right_trigger);
+                robot.intakeMotor.setPower(gamepad1.left_trigger);
+                robot.intakeServo.setPower(-gamepad1.left_trigger);
                 robot.transferCR1.setPower(-1);
                 robot.transferCR2.setPower(-1);
             }
@@ -58,18 +84,18 @@ public class Teleop extends LinearOpMode
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
                 robot.transferCR1.setPower(0);
-                robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
             }
             // -- End Intake Code
 
 
             //Deposit code --
-            if (gamepad2.right_trigger > 0.05)
-                robot.depositServoOne.setPosition(1);
+            if (gamepad1.right_bumper)
+                robot.depositServoOne.setPosition(.5);
              else
                 robot.depositServoOne.setPosition(0);
-            if (gamepad2.left_trigger > 0.05)
-                robot.depositServoTwo.setPosition(1);
+            if (gamepad1.left_bumper)
+                robot.depositServoTwo.setPosition(.5);
              else
                 robot.depositServoTwo.setPosition(0);
             // -- End Deposit Code
@@ -77,4 +103,6 @@ public class Teleop extends LinearOpMode
             //Telemetry
             telemetry.addData("slide height", robot.transferM1.getCurrentPosition());
             telemetry.update();
-        }}}
+        }
+    }
+}

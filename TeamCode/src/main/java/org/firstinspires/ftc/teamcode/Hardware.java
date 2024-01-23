@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -7,9 +8,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
-public class Hardware
-{
+public class Hardware {
     //Drive Motors Declaration
     public DcMotorEx frontLeft;
     public DcMotorEx frontRight;
@@ -20,6 +21,8 @@ public class Hardware
     public DcMotorEx transferM2;
     public CRServo transferCR1;
     public CRServo transferCR2;
+    //Drone Launcher Servo Declaration
+    public CRServo droneLaunch;
 
     //Intake Servos Declaration
     public CRServo intakeServo;
@@ -28,6 +31,9 @@ public class Hardware
     //Deposit Servos Declaration
     public Servo depositServoOne;
     public Servo depositServoTwo;
+
+    //Line sensor
+    public ColorSensor lineSensor;
 
     //Odometry Helper Class Variables
     public double x = 0, y = 0, theta = 0;
@@ -71,11 +77,15 @@ public class Hardware
         transferM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         transferM1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        transferM2.setDirection(DcMotorSimple.Direction.REVERSE);
+
         //Intake Config - Transfer servos spin with intake servos/motors
         intakeServo = hardwareMap.get(CRServo.class, "Intake Servo");
         intakeMotor = hardwareMap.get(DcMotor.class, "Intake Motor");
         transferCR1 = hardwareMap.get(CRServo.class, "Transfer Servo 1");
         transferCR2 = hardwareMap.get(CRServo.class, "Transfer Servo 2");
+        //Drone Launcher Config
+        droneLaunch = hardwareMap.get(CRServo.class, "Drone Launcher");
 
         //Deposit Servo Config
         depositServoOne = hardwareMap.get(Servo.class, "Right Deposit");
@@ -88,6 +98,9 @@ public class Hardware
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //color sensor
+        lineSensor = hardwareMap.get(ColorSensor.class, "Line Sensor");
     }
 
     //robot-oriented drive method
