@@ -46,6 +46,7 @@ public class BlueLeftScrim extends LinearOpMode
             @Override
             public void onOpened()
             {
+                //set this to dimensions of camera?
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
@@ -86,7 +87,7 @@ public class BlueLeftScrim extends LinearOpMode
         while(opModeIsActive())
         {
             //strafe right
-            while(robot.y > -1.0980085 && opModeIsActive())
+            while(robot.y > -1 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,.5,0);
