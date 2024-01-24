@@ -62,15 +62,12 @@ public class BlueLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.width < 60 || BlueFinder.height < 30)
+            if(BlueFinder.screenPosition.x > 800)
                 auto = autoPos.right;
+            else if (BlueFinder.screenPosition.x < 350)
+                auto = autoPos.left;
             else
-            {
-                if(BlueFinder.screenPosition.x > 100)
-                    auto = autoPos.center;
-                else
-                    auto = autoPos.left;
-            }
+                auto = autoPos.center;
 
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);

@@ -61,15 +61,12 @@ public class BlueRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if((BlueFinder.height < 30 || BlueFinder.width < 50) || BlueFinder.screenPosition.x < 20)
+            if(BlueFinder.screenPosition.x > 700)
+                auto = autoPos.right;
+            else if (BlueFinder.screenPosition.x < 100)
                 auto = autoPos.left;
             else
-            {
-                if(BlueFinder.screenPosition.x > 100)
-                    auto = autoPos.center;
-                else
-                    auto = autoPos.right;
-            }
+                auto = autoPos.center;
 
             //park toggle
             if(gamepad1.a && !aPressed)
