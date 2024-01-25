@@ -151,6 +151,7 @@ public class BlueRightScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -171,6 +172,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -225,6 +227,7 @@ public class BlueRightScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -244,6 +247,7 @@ public class BlueRightScrim extends LinearOpMode
                     telemetry.update();
                 }
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -337,6 +341,7 @@ public class BlueRightScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -357,6 +362,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 

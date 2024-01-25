@@ -76,7 +76,7 @@ public class Odometry extends Hardware
     {
         try
         {
-            int total=centerOdom.getCurrentPosition();
+            int total=-centerOdom.getCurrentPosition();
             int oldPos = centerEncoderPos;
             centerEncoderPos=total;
             return oldPos - total;
@@ -100,8 +100,8 @@ public class Odometry extends Hardware
 
         // Change in the distance (centimeters) since the last update for each odometer
         double deltaLeftDist = -(getDeltaLeftTicks()/ ODOM_TICKS_PER_IN );
-        double deltaRightDist = -(getDeltaRightTicks()/ ODOM_TICKS_PER_IN );
-        double deltaCenterDist = getDeltaCenterTicks()/ ODOM_TICKS_PER_IN;
+        double deltaRightDist = -(getDeltaRightTicks()/ ODOM_TICKS_PER_IN);
+        double deltaCenterDist = (getDeltaCenterTicks()/ ODOM_TICKS_PER_IN);
 
         //adjusts for physical diffrences in pods
         if(deltaLeftDist < 0)

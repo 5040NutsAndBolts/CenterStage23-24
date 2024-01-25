@@ -57,13 +57,15 @@ public class RedLeftScrim extends LinearOpMode
         });
         webcam.setPipeline(new RedFinder());
 
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        dashboard.startCameraStream(webcam, 0);
         Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
 
         while(!isStopRequested() && !isStarted())
         {
             if(RedFinder.screenPosition.x > 800)
                 auto = autoPos.right;
-            else if (BlueFinder.screenPosition.x < 350)
+            else if (RedFinder.screenPosition.x < 350)
                 auto = autoPos.left;
             else
                 auto = autoPos.center;
@@ -79,8 +81,8 @@ public class RedLeftScrim extends LinearOpMode
 
             telemetry.addData("Auto", auto);
             telemetry.addData("Park?", park);
-            telemetry.addData("X Pos", TSEFinder.screenPosition.x);
-            telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+            telemetry.addData("X Pos", RedFinder.screenPosition.x);
+            telemetry.addData("Y Pos", RedFinder.screenPosition.y);
             telemetry.update();
             dashboardTelemetry.addData("Auto", auto);
             dashboardTelemetry.addData("Park?", park);
@@ -149,6 +151,7 @@ public class RedLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -169,6 +172,7 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -224,6 +228,7 @@ public class RedLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -244,6 +249,7 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -333,6 +339,7 @@ public class RedLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -353,6 +360,7 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
