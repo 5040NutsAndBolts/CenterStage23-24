@@ -57,17 +57,18 @@ public class RedLeftScrim extends LinearOpMode
         });
         webcam.setPipeline(new RedFinder());
 
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        dashboard.startCameraStream(webcam, 0);
         Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
 
         while(!isStopRequested() && !isStarted())
         {
-            //find correct auto to run
-            if (RedFinder.width<=90 && RedFinder.height<=90)
-                auto=autoPos.right;
-            else if (RedFinder.width>=90)
-                auto=autoPos.center;
+            if(RedFinder.screenPosition.x > 800)
+                auto = autoPos.right;
+            else if (RedFinder.screenPosition.x < 350)
+                auto = autoPos.left;
             else
-                auto=autoPos.left;
+                auto = autoPos.center;
 
             //park toggle
             if(gamepad1.a && !aPressed)
@@ -80,8 +81,8 @@ public class RedLeftScrim extends LinearOpMode
 
             telemetry.addData("Auto", auto);
             telemetry.addData("Park?", park);
-            telemetry.addData("X Pos", TSEFinder.screenPosition.x);
-            telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+            telemetry.addData("X Pos", RedFinder.screenPosition.x);
+            telemetry.addData("Y Pos", RedFinder.screenPosition.y);
             telemetry.update();
             dashboardTelemetry.addData("Auto", auto);
             dashboardTelemetry.addData("Park?", park);
@@ -94,7 +95,7 @@ public class RedLeftScrim extends LinearOpMode
         while(opModeIsActive())
         {
             //strafe right
-            while (robot.y > -2 && opModeIsActive())
+            while (robot.y > -1 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0, .5, 0);
@@ -146,11 +147,12 @@ public class RedLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit spike mark
-                while(depositTimer.seconds() < 4 && opModeIsActive())
+                while(depositTimer.seconds() < 5 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.transferCR2.setPower(-1);
+                    robot.intakeMotor.setPower(0.5);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -158,7 +160,7 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 //back away
-                while ((robot.y > -15) && opModeIsActive())
+                while ((robot.y > -14) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(.25 ,0,0);
@@ -168,10 +170,6 @@ public class RedLeftScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
-
-                robot.transferCR1.setPower(0);
-                robot.intakeMotor.setPower(0);
-                robot.intakeServo.setPower(0);
 
                 if(park)
                 {
@@ -201,6 +199,11 @@ public class RedLeftScrim extends LinearOpMode
                         telemetry.update();
                     }
                 }
+
+                robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
             }
 
             if(auto == autoPos.center)
@@ -225,7 +228,8 @@ public class RedLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.transferCR2.setPower(-1);
+                    robot.intakeMotor.setPower(.5);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -243,10 +247,6 @@ public class RedLeftScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
-
-                robot.transferCR1.setPower(0);
-                robot.intakeMotor.setPower(0);
-                robot.intakeServo.setPower(0);
 
                 if(park)
                 {
@@ -286,6 +286,12 @@ public class RedLeftScrim extends LinearOpMode
                         telemetry.update();
                     }
                 }
+
+                robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
+
             } //end of center spike mark
 
             if(auto == autoPos.right)
@@ -334,7 +340,8 @@ public class RedLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.transferCR2.setPower(-1);
+                    robot.intakeMotor.setPower(0.5);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -352,10 +359,6 @@ public class RedLeftScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
-
-                robot.transferCR1.setPower(0);
-                robot.intakeMotor.setPower(0);
-                robot.intakeServo.setPower(0);
 
                 if(park)
                 {
@@ -386,6 +389,11 @@ public class RedLeftScrim extends LinearOpMode
                         telemetry.update();
                     }
                 }
+
+                robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
             } //end of right spike mark
 
             robot.robotODrive(0,0,0);

@@ -38,7 +38,7 @@ public class Hardware
     public CRServo transferCR2;
 
     //Drone Launcher Servo Declaration
-    public CRServo droneLaunch;
+    public Servo droneLaunch;
 
     //Intake Servos Declaration
     public CRServo intakeServo;
@@ -107,7 +107,7 @@ public class Hardware
         transferCR1 = hardwareMap.get(CRServo.class, "Transfer Servo 1");
         transferCR2 = hardwareMap.get(CRServo.class, "Transfer Servo 2");
         //Drone Launcher Config
-        droneLaunch = hardwareMap.get(CRServo.class, "Drone Launcher");
+        droneLaunch = hardwareMap.get(Servo.class, "Drone Launcher");
 
         //Deposit Servo Config
         depositServoOne = hardwareMap.get(Servo.class, "Right Deposit");

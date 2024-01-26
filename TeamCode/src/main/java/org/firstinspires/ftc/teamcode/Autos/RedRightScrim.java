@@ -63,17 +63,12 @@ public class RedRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if((RedFinder.height < 40) || RedFinder.screenPosition.x < 20)
-            {
+            if(RedFinder.screenPosition.x > 600)
+                auto = autoPos.right;
+            else if (RedFinder.screenPosition.x < 100)
                 auto = autoPos.left;
-            }
             else
-            {
-                if(RedFinder.screenPosition.x < 80)
-                    auto = autoPos.center;
-                else
-                    auto = autoPos.right;
-            }
+                auto = autoPos.center;
 
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);
@@ -146,6 +141,7 @@ public class RedRightScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -166,6 +162,7 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -220,6 +217,7 @@ public class RedRightScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -240,6 +238,7 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -317,6 +316,7 @@ public class RedRightScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -337,6 +337,7 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -406,7 +407,7 @@ public class RedRightScrim extends LinearOpMode
                 robot.robotODrive(.25 ,0,0);
 
                 //stop moving and reset position when robot sees line
-                if(robot.lineSensor.red() > 80)
+                if(robot.lineSensor.red() > 200)
                 {
                     robot.robotODrive(0,0,0);
                     robot.updatePositionRoadRunner();
@@ -481,9 +482,11 @@ public class RedRightScrim extends LinearOpMode
             {
                 robot.robotODrive(0,0,0);
                 robot.transferM1.setPower(1);
+                robot.transferM2.setPower(1);
             }
 
-            robot.transferM1.setPower(.25);
+            robot.transferM1.setPower(.1);
+            robot.transferM2.setPower(.1);
 
             //get to backdrop
             while ((robot.y > -46) && opModeIsActive())
@@ -533,11 +536,13 @@ public class RedRightScrim extends LinearOpMode
             robot.depositServoTwo.setPosition(0);
 
             robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             //lowers slides
             while(robot.transferM1.getCurrentPosition() > 200 && opModeIsActive())
             {
                 robot.robotODrive(0,0,0);
-                robot.transferM1.setPower(-.05);
+                robot.transferM1.setPower(-.1);
+                robot.transferM2.setPower(-.1);
             }
 
             //towards wall

@@ -62,15 +62,12 @@ public class BlueLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.width < 60 || BlueFinder.height < 30)
+            if(BlueFinder.screenPosition.x > 800)
                 auto = autoPos.right;
+            else if (BlueFinder.screenPosition.x < 350)
+                auto = autoPos.left;
             else
-            {
-                if(BlueFinder.screenPosition.x > 100)
-                    auto = autoPos.center;
-                else
-                    auto = autoPos.left;
-            }
+                auto = autoPos.center;
 
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);
@@ -114,7 +111,8 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 38) && opModeIsActive()){
+                while ((robot.x < 38) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
 
@@ -144,6 +142,7 @@ public class BlueLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -164,6 +163,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -231,6 +231,7 @@ public class BlueLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -239,6 +240,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -328,6 +330,7 @@ public class BlueLeftScrim extends LinearOpMode
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
@@ -348,6 +351,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
@@ -407,7 +411,7 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.robotODrive(.25 ,0,0);
 
                 //stop moving and reset position when robot sees line
-                if(robot.lineSensor.blue() > 175)
+                if(robot.lineSensor.blue() > 300)
                 {
                     robot.robotODrive(0,0,0);
                     robot.updatePositionRoadRunner();
@@ -420,6 +424,7 @@ public class BlueLeftScrim extends LinearOpMode
                 telemetry.addData("x", robot.x);
                 telemetry.addData("y", robot.y);
                 telemetry.addData("theta", robot.theta);
+                telemetry.addData("time", timeOut.seconds());
                 telemetry.update();
             }
 
@@ -483,9 +488,11 @@ public class BlueLeftScrim extends LinearOpMode
             {
                 robot.robotODrive(0,0,0);
                 robot.transferM1.setPower(1);
+                robot.transferM2.setPower(1);
             }
 
-            robot.transferM1.setPower(.25);
+            robot.transferM1.setPower(.1);
+            robot.transferM2.setPower(.1);
 
             //get to backdrop (this is what happens whe no side rollers)
             while ((robot.y < 45) && opModeIsActive())
@@ -535,11 +542,13 @@ public class BlueLeftScrim extends LinearOpMode
             robot.depositServoTwo.setPosition(0);
 
             robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             //lowers slides
             while(robot.transferM1.getCurrentPosition() > 200 && opModeIsActive())
             {
                 robot.robotODrive(0,0,0);
-                robot.transferM1.setPower(-.05);
+                robot.transferM1.setPower(-.1);
+                robot.transferM2.setPower(-.1);
             }
 
             //strafe to wall

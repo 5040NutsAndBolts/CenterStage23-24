@@ -46,9 +46,9 @@ public class TwoDriverTeleop extends LinearOpMode
             if(robotDrive)
                 robot.robotODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
                         gamepad1.right_stick_x * driveSpeed);
-            /*if(!robotDrive)
+            if(!robotDrive)
                 robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
-                        gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);*/
+                        gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
 
             //Transfer Code --
             //slides go up proportionally to stick value
@@ -85,34 +85,31 @@ public class TwoDriverTeleop extends LinearOpMode
             //Drone Launcher Code --
             //Spins the servo for 1 second
             if (gamepad1.b)
-            {
-                //Creates an elapsed timer
-                ElapsedTime timer = new ElapsedTime();
-                timer.startTime();
-                //While 1 second mark has not passed
-                while(timer.seconds() < 1)
-                    robot.droneLaunch.setPower(-1);
-                robot.droneLaunch.setPower(0); //Redundancy for zeroPowerBehaviour
-            }
+             robot.droneLaunch.setPosition(1);
+            else
+                robot.droneLaunch.setPosition(0);
             //-- End Drone Launcher Code
 
             //Intake code --
             //Spin Inwards
-            if(gamepad1.right_trigger > .05) {
+            if(gamepad1.right_trigger > .05)
+            {
                 robot.intakeMotor.setPower(-gamepad1.right_trigger);
                 robot.intakeServo.setPower(gamepad1.right_trigger);
                 robot.transferCR1.setPower(1);
                 robot.transferCR2.setPower(1);
             }
             //Spin Outwards
-            else if(gamepad1.left_trigger > .05) {
+            else if(gamepad1.left_trigger > .05)
+            {
                 robot.intakeMotor.setPower(gamepad1.left_trigger);
                 robot.intakeServo.setPower(-gamepad1.left_trigger);
                 robot.transferCR1.setPower(-1);
                 robot.transferCR2.setPower(-1);
             }
             //If neither are pressed or both are pressed everything is set to it's zeroPowerBehavior()
-            else if((gamepad1.left_trigger > .05  && gamepad1.right_trigger > .05) || (gamepad1.left_trigger < .05 && gamepad1.right_trigger < .05)) {
+            else if((gamepad1.left_trigger > .05  && gamepad1.right_trigger > .05) || (gamepad1.left_trigger < .05 && gamepad1.right_trigger < .05))
+            {
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
                 robot.transferCR1.setPower(0);
