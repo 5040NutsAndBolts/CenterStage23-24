@@ -27,7 +27,7 @@ public class BlueRightScrim extends LinearOpMode
     autoPos auto = autoPos.left;
 
     //park toggle variables
-    public boolean park = true;
+    public boolean park = false;
     public boolean aPressed;
 
     @Override
@@ -61,6 +61,7 @@ public class BlueRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
+
             if(BlueFinder.screenPosition.x > 700)
                 auto = autoPos.right;
             else if (BlueFinder.screenPosition.x < 100)
@@ -68,14 +69,14 @@ public class BlueRightScrim extends LinearOpMode
             else
                 auto = autoPos.center;
 
-            //park toggle
+            /*park toggle
             if(gamepad1.a && !aPressed)
             {
                 park = !park;
                 aPressed = true;
             }
             else if(!gamepad1.a)
-                aPressed = false;
+                aPressed = false;*/
 
             telemetry.addData("Auto", auto);
             telemetry.addData("Park?", park);
@@ -398,6 +399,7 @@ public class BlueRightScrim extends LinearOpMode
             while(true && opModeIsActive())
             {
                 robot.robotODrive(0,0,0);
+                telemetry.addLine(String.valueOf(TSEFinder.screenPosition));
             }
         }
     }

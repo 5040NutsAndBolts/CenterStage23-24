@@ -63,9 +63,9 @@ public class RedRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(RedFinder.screenPosition.x > 600)
+            if(RedFinder.screenPosition.x > 300)
                 auto = autoPos.right;
-            else if (RedFinder.screenPosition.x < 100)
+            else if (RedFinder.screenPosition.y > 550 && RedFinder.screenPosition.x < 250)
                 auto = autoPos.left;
             else
                 auto = autoPos.center;
@@ -73,8 +73,12 @@ public class RedRightScrim extends LinearOpMode
             telemetry.addData("Auto", auto);
             telemetry.addData("X Pos", TSEFinder.screenPosition.x);
             telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+            telemetry.addData("x pos",RedFinder.screenPosition.x);
+            telemetry.addData("y pos",RedFinder.screenPosition.y);
             telemetry.update();
             dashboardTelemetry.addData("Auto", auto);
+            dashboardTelemetry.addData("x pos",RedFinder.screenPosition.x);
+            dashboardTelemetry.addData("y pos",RedFinder.screenPosition.y);
             dashboardTelemetry.update();
         }
 
@@ -153,7 +157,7 @@ public class RedRightScrim extends LinearOpMode
                 while ((robot.y > -10) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.25 ,0,0);
+                    robot.robotODrive(.125 ,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);

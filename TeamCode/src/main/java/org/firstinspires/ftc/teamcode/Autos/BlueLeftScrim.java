@@ -36,7 +36,7 @@ public class BlueLeftScrim extends LinearOpMode
         //initializes robot
         Odometry robot = new Odometry(hardwareMap);
 
-        //camera setup
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         OpenCvWebcam webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
 
@@ -62,6 +62,10 @@ public class BlueLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
+            telemetry.addData("BlueFinder X", BlueFinder.screenPosition.x);
+            telemetry.addData("BlueFinder Y", BlueFinder.screenPosition.y);
+            dashboardTelemetry.update();
+
             if(BlueFinder.screenPosition.x > 800)
                 auto = autoPos.right;
             else if (BlueFinder.screenPosition.x < 350)
