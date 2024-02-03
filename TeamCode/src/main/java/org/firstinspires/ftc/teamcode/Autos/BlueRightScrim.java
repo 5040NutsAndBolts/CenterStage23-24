@@ -57,6 +57,8 @@ public class BlueRightScrim extends LinearOpMode
         });
         webcam.setPipeline(new BlueFinder());
 
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        dashboard.startCameraStream(webcam, 0);
         Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
 
         while(!isStopRequested() && !isStarted())
@@ -84,6 +86,8 @@ public class BlueRightScrim extends LinearOpMode
             telemetry.update();
             dashboardTelemetry.addData("Auto", auto);
             dashboardTelemetry.addData("Park?", park);
+            dashboardTelemetry.addData("X Pos", BlueFinder.screenPosition.x);
+            dashboardTelemetry.addData("Y Pos", BlueFinder.screenPosition.y);
             dashboardTelemetry.update();
         }
 
@@ -239,7 +243,7 @@ public class BlueRightScrim extends LinearOpMode
                 while ((robot.x > 18) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.5,0,0);
+                    robot.robotODrive(.2,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -266,7 +270,7 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //forward
-                    while ((robot.x < 52) && opModeIsActive())
+                    while ((robot.x < 48) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(-.5,0,0);
@@ -278,11 +282,11 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //strafe
-                    while ((robot.y < 95) && opModeIsActive())
+                    while ((robot.y < 97) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
 
-                        if(robot.x < 51)
+                        if(robot.x < 50)
                             robot.robotODrive(-.25,-.5,0);
                         else
                             robot.robotODrive(0, -.5, 0);
