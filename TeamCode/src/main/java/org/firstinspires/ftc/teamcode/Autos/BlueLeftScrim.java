@@ -62,9 +62,9 @@ public class BlueLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.screenPosition.x > 800)
+            if(BlueFinder.screenPosition.x > 750)
                 auto = autoPos.right;
-            else if (BlueFinder.screenPosition.x < 350)
+            else if (BlueFinder.screenPosition.x < 250)
                 auto = autoPos.left;
             else
                 auto = autoPos.center;
@@ -78,6 +78,9 @@ public class BlueLeftScrim extends LinearOpMode
         }
 
         robot.resetOdometry(0,0,0);
+        robot.transferM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.transferM1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         waitForStart();
 
         //this loop runs after play pressed
@@ -111,7 +114,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 38) && opModeIsActive())
+                while ((robot.x < 40) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -123,7 +126,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -12) && opModeIsActive())
+                while ((robot.y < -10) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -138,12 +141,12 @@ public class BlueLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit pixel
-                while (depositTimer.seconds()<3 && opModeIsActive())
+                while (depositTimer.seconds()<4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -168,7 +171,8 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.intakeServo.setPower(0);
 
                 //strafe to wall mark
-                while ((robot.x > 20) && opModeIsActive()){
+                while ((robot.x > 20) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
 
@@ -212,7 +216,7 @@ public class BlueLeftScrim extends LinearOpMode
             if(auto == autoPos.center)
             {
                 //drive to spike mark
-                while ((robot.x < 26.5) && opModeIsActive())
+                while ((robot.x < 30) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.5,0,0);
@@ -227,15 +231,27 @@ public class BlueLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit purple pixel
-                while (depositTimer.seconds()<4 && opModeIsActive())
+                while (depositTimer.seconds() < 4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
+                    telemetry.update();
+                }
+
+                //back away from spike mark
+                while ((robot.x > 10) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.25,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
 
@@ -243,18 +259,6 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
-
-                //back away from spike mark
-                while ((robot.x > 10) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(.5,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
 
                 //rotate so deposit faces backdrop
                 while((robot.theta > 5.0 || robot.theta < 1) && opModeIsActive()) {
@@ -299,7 +303,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 36) && opModeIsActive())
+                while ((robot.x < 40) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -331,7 +335,7 @@ public class BlueLeftScrim extends LinearOpMode
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -390,7 +394,7 @@ public class BlueLeftScrim extends LinearOpMode
             robot.updatePositionRoadRunner();
 
             //strafe away from wall
-            while ((robot.x < 5) && opModeIsActive())
+            while ((robot.x < 3) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,-.5,0);
@@ -405,10 +409,10 @@ public class BlueLeftScrim extends LinearOpMode
             timeOut.startTime();
 
             //approach backdrop until robot sees line or hits timeout
-            while (timeOut.seconds() < 3 && opModeIsActive())
+            while (timeOut.seconds() < 4 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
-                robot.robotODrive(.25 ,0,0);
+                robot.robotODrive(.20 ,0,0);
 
                 //stop moving and reset position when robot sees line
                 if(robot.lineSensor.blue() > 300)
@@ -442,7 +446,7 @@ public class BlueLeftScrim extends LinearOpMode
             //line up with backdrop according to randomization
             if(auto == autoPos.left)
             {
-                while ((robot.x < 20) && opModeIsActive())
+                while ((robot.x < 22) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -470,7 +474,7 @@ public class BlueLeftScrim extends LinearOpMode
 
             if(auto == autoPos.right)
             {
-                while ((robot.x < 30) && opModeIsActive())
+                while ((robot.x < 27) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -484,7 +488,7 @@ public class BlueLeftScrim extends LinearOpMode
 
             robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //raise slides
-            while(robot.transferM1.getCurrentPosition() < 1200 && opModeIsActive())
+            while(robot.transferM1.getCurrentPosition() < 1700 && opModeIsActive())
             {
                 robot.robotODrive(0,0,0);
                 robot.transferM1.setPower(1);
@@ -495,6 +499,10 @@ public class BlueLeftScrim extends LinearOpMode
             robot.transferM2.setPower(.1);
 
             //get to backdrop (this is what happens whe no side rollers)
+
+            ElapsedTime timeCease = new ElapsedTime();
+            timeCease.startTime();
+
             while ((robot.y < 45) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
@@ -504,11 +512,14 @@ public class BlueLeftScrim extends LinearOpMode
                 telemetry.addData("y", robot.y);
                 telemetry.addData("theta", robot.theta);
                 telemetry.update();
+
+                if(timeCease.seconds() > 3)
+                    break;
             }
 
             ElapsedTime pause = new ElapsedTime();
             pause.startTime();
-            while(pause.seconds() < 2)
+            while(pause.seconds() < 1)
             {
                 robot.robotODrive(0,0,0);
             }
@@ -520,7 +531,7 @@ public class BlueLeftScrim extends LinearOpMode
             //wait at backdrop
             pause.reset();
             pause.startTime();
-            while(pause.seconds() < 2)
+            while(pause.seconds() < 1)
             {
                 robot.robotODrive(0,0,0);
             }
@@ -544,12 +555,15 @@ public class BlueLeftScrim extends LinearOpMode
             robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             //lowers slides
-            while(robot.transferM1.getCurrentPosition() > 200 && opModeIsActive())
+            while(robot.transferM1.getCurrentPosition() > 50 && opModeIsActive())
             {
                 robot.robotODrive(0,0,0);
-                robot.transferM1.setPower(-.1);
-                robot.transferM2.setPower(-.1);
+                robot.transferM1.setPower(-.2);
+                robot.transferM2.setPower(-.2);
             }
+
+            robot.transferM1.setPower(0);
+            robot.transferM2.setPower(0);
 
             //strafe to wall
             while ((robot.x > 5) && opModeIsActive())
