@@ -257,7 +257,7 @@ public class BlueRightScrim extends LinearOpMode
 
                 if(park)
                 {
-                    //strafe
+                    //strafing
                     while ((robot.y > -15) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
