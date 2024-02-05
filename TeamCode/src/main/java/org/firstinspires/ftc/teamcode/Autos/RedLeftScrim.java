@@ -27,7 +27,7 @@ public class RedLeftScrim extends LinearOpMode
     autoPos auto = autoPos.right;
 
     //park toggle variables
-    public boolean park = true;
+    public boolean park = false;
     public boolean aPressed;
 
     @Override
@@ -70,14 +70,14 @@ public class RedLeftScrim extends LinearOpMode
             else
                 auto = autoPos.center;
 
-            //park toggle
+            /*park toggle
             if(gamepad1.a && !aPressed)
             {
                 park = !park;
                 aPressed = true;
             }
             else if(!gamepad1.a)
-                aPressed = false;
+                aPressed = false;*/
 
             telemetry.addData("Auto", auto);
             telemetry.addData("Park?", park);
@@ -132,10 +132,10 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -13) && opModeIsActive())
+                while ((robot.y < -11) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(-.25 ,0,0);
+                    robot.robotODrive(-.5 ,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -209,10 +209,10 @@ public class RedLeftScrim extends LinearOpMode
             if(auto == autoPos.center)
             {
                 //drive to spike mark
-                while ((robot.x < 26.5) && opModeIsActive())
+                while ((robot.x < 32.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(-.5,0,0);
+                    robot.robotODrive(-.4,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -240,7 +240,7 @@ public class RedLeftScrim extends LinearOpMode
                 while ((robot.x > 18) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.5,0,0);
+                    robot.robotODrive(.25,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -321,10 +321,10 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y > 7) && opModeIsActive())
+                while ((robot.y > 5.7) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(-.25 ,0,0);
+                    robot.robotODrive(-.2 ,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -349,10 +349,10 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 //back up
-                while ((robot.y < 13) && opModeIsActive())
+                while ((robot.y < 12.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.25 ,0,0);
+                    robot.robotODrive(.1 ,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -367,6 +367,33 @@ public class RedLeftScrim extends LinearOpMode
                     {
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(0,-.5,0);
+
+                        telemetry.addData("x", robot.x);
+                        telemetry.addData("y", robot.y);
+                        telemetry.addData("theta", robot.theta);
+                        telemetry.update();
+                    }
+
+                    //into park
+                    while ((robot.y > -60) && opModeIsActive())
+                    {
+                        robot.updatePositionRoadRunner();
+                        if(robot.x > 58)
+                            robot.robotODrive(-.5 ,.25,0);
+                        else
+                            robot.robotODrive(-.5 ,0,0);
+
+                        telemetry.addData("x", robot.x);
+                        telemetry.addData("y", robot.y);
+                        telemetry.addData("theta", robot.theta);
+                        telemetry.update();
+                    }
+
+                    //strafe left
+                    while ((robot.x < 80) && opModeIsActive())
+                    {
+                        robot.updatePositionRoadRunner();
+                        robot.robotODrive(0,.5,0);
 
                         telemetry.addData("x", robot.x);
                         telemetry.addData("y", robot.y);
