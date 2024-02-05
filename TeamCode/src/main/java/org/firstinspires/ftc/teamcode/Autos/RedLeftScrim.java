@@ -70,14 +70,14 @@ public class RedLeftScrim extends LinearOpMode
             else
                 auto = autoPos.center;
 
-            /*park toggle
+            //park toggle
             if(gamepad1.a && !aPressed)
             {
                 park = !park;
                 aPressed = true;
             }
             else if(!gamepad1.a)
-                aPressed = false;*/
+                aPressed = false;
 
             telemetry.addData("Auto", auto);
             telemetry.addData("Park?", park);

@@ -27,7 +27,7 @@ public class BlueRightScrim extends LinearOpMode
     autoPos auto = autoPos.left;
 
     //park toggle variables
-    public boolean park = false;
+    public boolean park = true;
     public boolean aPressed;
 
     @Override
@@ -65,13 +65,12 @@ public class BlueRightScrim extends LinearOpMode
         {
             if(BlueFinder.screenPosition.x < 200)
                 auto = autoPos.center;
-            else if(BlueFinder.screenPosition.y > 570)
+            else if(BlueFinder.screenPosition.y > 600)
                 auto = autoPos.left;
             else
                 auto = autoPos.right;
 
-
-            park toggle
+            //park toggle
             if(gamepad1.a && !aPressed)
             {
                 park = !park;
@@ -152,12 +151,12 @@ public class BlueRightScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit pixel
-                while (depositTimer.seconds()<3 && opModeIsActive())
+                while (depositTimer.seconds() < 3 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -201,12 +200,15 @@ public class BlueRightScrim extends LinearOpMode
 
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(-.5 ,0,0);
-                        if(robot.x<64) {
+
+                        if(robot.x < 64)
+                        {
                             robot.updatePositionRoadRunner();
                             robot.robotODrive(0,.5,0);
                         }
 
-                        if(robot.x > 66) {
+                        if(robot.x > 66)
+                        {
                             robot.updatePositionRoadRunner();
                             robot.robotODrive(0,-.5,0);
                         }
@@ -237,12 +239,12 @@ public class BlueRightScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit purple pixel
-                while (depositTimer.seconds()<4 && opModeIsActive())
+                while (depositTimer.seconds() < 4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -267,7 +269,7 @@ public class BlueRightScrim extends LinearOpMode
 
                 if(park)
                 {
-                    //strafing
+                    //strafe
                     while ((robot.y > -15) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
@@ -280,7 +282,7 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //forward
-                    while ((robot.x < 50.45) && opModeIsActive())
+                    while ((robot.x < 50.5) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(-.5,0,0);
@@ -296,7 +298,7 @@ public class BlueRightScrim extends LinearOpMode
                     {
                         robot.updatePositionRoadRunner();
 
-                        if(robot.x < 48.3)
+                        if(robot.x < 48)
                             robot.robotODrive(-.25,-.5,0);
                         else
                             robot.robotODrive(0, -.5, 0);
@@ -351,12 +353,12 @@ public class BlueRightScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit pixel
-                while (depositTimer.seconds()<4 && opModeIsActive())
+                while (depositTimer.seconds() < 4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(1);
+                    robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
@@ -395,13 +397,15 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //back to park zone
-                    while ((robot.y < 100) && opModeIsActive())
+                    while ((robot.y < 105) && opModeIsActive())
                     {
-                        if(robot.x < 62.1){
+                        if(robot.x < 62)
+                        {
                             robot.updatePositionRoadRunner();
                             robot.robotODrive(.5 ,-.5,0);
                         }
-                        else{
+                        else
+                        {
                             robot.updatePositionRoadRunner();
                             robot.robotODrive(.5, 0, 0);
                         }
