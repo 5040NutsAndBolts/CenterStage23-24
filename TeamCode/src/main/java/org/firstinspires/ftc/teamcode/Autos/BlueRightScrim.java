@@ -57,26 +57,28 @@ public class BlueRightScrim extends LinearOpMode
         });
         webcam.setPipeline(new BlueFinder());
 
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        dashboard.startCameraStream(webcam, 0);
         Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
 
         while(!isStopRequested() && !isStarted())
         {
-
-            if(BlueFinder.screenPosition.x > 700)
-                auto = autoPos.right;
-            else if (BlueFinder.screenPosition.x < 100)
+            if(BlueFinder.screenPosition.x < 200)
+                auto = autoPos.center;
+            else if(BlueFinder.screenPosition.y > 570)
                 auto = autoPos.left;
             else
-                auto = autoPos.center;
+                auto = autoPos.right;
 
-            /*park toggle
+
+            park toggle
             if(gamepad1.a && !aPressed)
             {
                 park = !park;
                 aPressed = true;
             }
             else if(!gamepad1.a)
-                aPressed = false;*/
+                aPressed = false;
 
             telemetry.addData("Auto", auto);
             telemetry.addData("Park?", park);
@@ -85,6 +87,8 @@ public class BlueRightScrim extends LinearOpMode
             telemetry.update();
             dashboardTelemetry.addData("Auto", auto);
             dashboardTelemetry.addData("Park?", park);
+            dashboardTelemetry.addData("X Pos", BlueFinder.screenPosition.x);
+            dashboardTelemetry.addData("Y Pos", BlueFinder.screenPosition.y);
             dashboardTelemetry.update();
         }
 
@@ -121,7 +125,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 38) && opModeIsActive())
+                while ((robot.x < 41) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -133,7 +137,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -5) && opModeIsActive())
+                while ((robot.y < -3) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -161,7 +165,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //back up
-                while ((robot.y > -14) && opModeIsActive())
+                while ((robot.y > -18) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(.25 ,0,0);
@@ -181,7 +185,7 @@ public class BlueRightScrim extends LinearOpMode
                 if(park)
                 {
                     //strafe
-                    while ((robot.x < 58) && opModeIsActive())
+                    while ((robot.x < 62) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(0,.5,0);
@@ -193,10 +197,19 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //forawrd to park
-                    while ((robot.y < 80) && opModeIsActive())
-                    {
+                    while ((robot.y < 80) && opModeIsActive()) {
+
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(-.5 ,0,0);
+                        if(robot.x<64) {
+                            robot.updatePositionRoadRunner();
+                            robot.robotODrive(0,.5,0);
+                        }
+
+                        if(robot.x > 66) {
+                            robot.updatePositionRoadRunner();
+                            robot.robotODrive(0,-.5,0);
+                        }
 
                         telemetry.addData("x", robot.x);
                         telemetry.addData("y", robot.y);
@@ -240,7 +253,7 @@ public class BlueRightScrim extends LinearOpMode
                 while ((robot.x > 18) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.5,0,0);
+                    robot.robotODrive(.2,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -254,7 +267,7 @@ public class BlueRightScrim extends LinearOpMode
 
                 if(park)
                 {
-                    //strafe
+                    //strafing
                     while ((robot.y > -15) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
@@ -267,7 +280,7 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //forward
-                    while ((robot.x < 52) && opModeIsActive())
+                    while ((robot.x < 50.45) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(-.5,0,0);
@@ -279,11 +292,11 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //strafe
-                    while ((robot.y < 95) && opModeIsActive())
+                    while ((robot.y < 97) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
 
-                        if(robot.x < 51)
+                        if(robot.x < 48.3)
                             robot.robotODrive(-.25,-.5,0);
                         else
                             robot.robotODrive(0, -.5, 0);
@@ -323,7 +336,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y > 11) && opModeIsActive())
+                while ((robot.y > 10.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -351,10 +364,10 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //back away
-                while ((robot.y < 13) && opModeIsActive())
+                while ((robot.y < 14) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.25 ,0,0);
+                    robot.robotODrive(.1 ,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -382,10 +395,16 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //back to park zone
-                    while ((robot.y < 105) && opModeIsActive())
+                    while ((robot.y < 100) && opModeIsActive())
                     {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(.5 ,0,0);
+                        if(robot.x < 62.1){
+                            robot.updatePositionRoadRunner();
+                            robot.robotODrive(.5 ,-.5,0);
+                        }
+                        else{
+                            robot.updatePositionRoadRunner();
+                            robot.robotODrive(.5, 0, 0);
+                        }
 
                         telemetry.addData("x", robot.x);
                         telemetry.addData("y", robot.y);
