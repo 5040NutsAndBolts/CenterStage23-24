@@ -440,11 +440,9 @@ public class BlueLeftScrim extends LinearOpMode
             if(!lineSeen)
             {
                 robot.robotODrive(0,0,0);
-                while(true && opModeIsActive())
-                {
-                    telemetry.addLine("Couldn't fine line, parking early");
-                    telemetry.update();
-                }
+                telemetry.addLine("Couldn't fine line, parking early");
+                telemetry.update();
+                requestOpModeStop();
             }
 
             //line up with backdrop according to randomization

@@ -65,9 +65,9 @@ public class RedRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if (RedFinder.screenPosition.y < 550)
+            if (RedFinder.screenPosition.x < 150)
                 auto = autoPos.left;
-            else if(RedFinder.screenPosition.x > 550)
+            else if(RedFinder.screenPosition.x > 600)
                 auto = autoPos.right;
             else
                 auto = autoPos.center;
@@ -430,11 +430,10 @@ public class RedRightScrim extends LinearOpMode
             //stops the robot in the park zone if it couldn't reset on the line
             if(!lineSeen)
             {
-                while(true && opModeIsActive())
-                {
-                    telemetry.addLine("Couldn't fine line, parking early");
-                    telemetry.update();
-                }
+                robot.robotODrive(0,0,0);
+                telemetry.addLine("Couldn't fine line, parking early");
+                telemetry.update();
+                requestOpModeStop();
             }
 
             //line up with backdrop according to randomization

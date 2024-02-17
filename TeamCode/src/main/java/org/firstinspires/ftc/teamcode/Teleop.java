@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "A Teleop", group = "Teleop")
+@TeleOp(name = "B Teleop One-Driver", group = "Teleop")
 public class Teleop extends LinearOpMode
 {
     boolean slowMode;

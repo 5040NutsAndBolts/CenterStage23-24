@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "A Teleop Two Driver", group = "Teleop")
+@TeleOp(name = "A Teleop Two-Driver", group = "Teleop")
 public class TwoDriverTeleop extends LinearOpMode
 {
     boolean slowMode;
@@ -50,7 +50,7 @@ public class TwoDriverTeleop extends LinearOpMode
                 robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
                         gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
 
-            //Transfer Code --
+            //SLides Code --
             //slides go up proportionally to stick value
             if (gamepad2.left_stick_y < -.05)
             {
@@ -85,9 +85,9 @@ public class TwoDriverTeleop extends LinearOpMode
             //Drone Launcher Code --
             //Spins the servo for 1 second
             if (gamepad1.b)
-             robot.droneLaunch.setPosition(1);
+             robot.droneLaunch.setPosition(0);
             else
-                robot.droneLaunch.setPosition(0);
+                robot.droneLaunch.setPosition(.5);
             //-- End Drone Launcher Code
 
             //Intake code --
