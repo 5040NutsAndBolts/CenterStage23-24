@@ -63,12 +63,12 @@ public class BlueRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.screenPosition.x < 200)
-                auto = autoPos.center;
-            else if(BlueFinder.screenPosition.y > 600)
+            if(BlueFinder.screenPosition.x < 250)
                 auto = autoPos.left;
-            else
+            else if(BlueFinder.screenPosition.x > 700)
                 auto = autoPos.right;
+            else
+                auto = autoPos.center;
 
             //park toggle
             if(gamepad1.a && !aPressed)
@@ -136,7 +136,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -3) && opModeIsActive())
+                while ((robot.y < -2) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -196,7 +196,8 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //forawrd to park
-                    while ((robot.y < 80) && opModeIsActive()) {
+                    while ((robot.y < 77) && opModeIsActive())
+                    {
 
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(-.5 ,0,0);
@@ -282,7 +283,7 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //forward
-                    while ((robot.x < 50.5) && opModeIsActive())
+                    while ((robot.x < 51) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
                         robot.robotODrive(-.5,0,0);
@@ -294,7 +295,7 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //strafe
-                    while ((robot.y < 97) && opModeIsActive())
+                    while ((robot.y < 93) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
 
@@ -338,7 +339,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y > 10.5) && opModeIsActive())
+                while ((robot.y > 11.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -397,7 +398,7 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //back to park zone
-                    while ((robot.y < 105) && opModeIsActive())
+                    while ((robot.y < 102) && opModeIsActive())
                     {
                         if(robot.x < 62)
                         {

@@ -209,7 +209,7 @@ public class RedLeftScrim extends LinearOpMode
             if(auto == autoPos.center)
             {
                 //drive to spike mark
-                while ((robot.x < 32) && opModeIsActive())
+                while ((robot.x < 31) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.4,0,0);
@@ -278,7 +278,7 @@ public class RedLeftScrim extends LinearOpMode
                     while (robot.y > -90 && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
-                        if(robot.x > 53)
+                        if(robot.x > 55)
                             robot.robotODrive(.25,.5,0);
                         else
                             robot.robotODrive(0, .5, 0);
@@ -324,7 +324,7 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y > 4) && opModeIsActive())
+                while ((robot.y > 3) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.2 ,0,0);

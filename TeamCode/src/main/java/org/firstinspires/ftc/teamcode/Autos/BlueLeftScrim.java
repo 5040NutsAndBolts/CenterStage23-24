@@ -158,7 +158,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //back up
-                while ((robot.y > -14) && opModeIsActive())
+                while ((robot.y > -12) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(.25 ,0,0);
@@ -319,7 +319,7 @@ public class BlueLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y > 5.5) && opModeIsActive())
+                while ((robot.y > 5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -364,7 +364,7 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.intakeServo.setPower(0);
 
                 //towards wall
-                while ((robot.x > 12) && opModeIsActive())
+                while ((robot.x > 15) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -448,7 +448,7 @@ public class BlueLeftScrim extends LinearOpMode
             //line up with backdrop according to randomization
             if(auto == autoPos.left)
             {
-                while ((robot.x < 22) && opModeIsActive())
+                while ((robot.x < 25) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -476,7 +476,7 @@ public class BlueLeftScrim extends LinearOpMode
 
             if(auto == autoPos.right)
             {
-                while ((robot.x < 27) && opModeIsActive())
+                while ((robot.x < 25) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -501,11 +501,11 @@ public class BlueLeftScrim extends LinearOpMode
             robot.transferM2.setPower(.1);
 
             //get to backdrop (this is what happens whe no side rollers)
-
             ElapsedTime timeCease = new ElapsedTime();
             timeCease.startTime();
 
-            while ((robot.y < 45) && opModeIsActive())
+            //forward a little to backdrop
+            while ((robot.y < 50) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.25 ,0,0);
@@ -539,7 +539,7 @@ public class BlueLeftScrim extends LinearOpMode
             }
 
             //forward away from backdrop
-            while ((robot.y > 35) && opModeIsActive())
+            while ((robot.y > 34) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(-.5 ,0,0);
@@ -568,7 +568,7 @@ public class BlueLeftScrim extends LinearOpMode
             robot.transferM2.setPower(0);
 
             //strafe to wall
-            while ((robot.x > 5) && opModeIsActive())
+            while ((robot.x > 8) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,.5,0);

@@ -115,7 +115,7 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 40) && opModeIsActive()){
+                while ((robot.x < 39) && opModeIsActive()){
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
 
@@ -126,7 +126,7 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -5) && opModeIsActive())
+                while ((robot.y < -3.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -170,7 +170,7 @@ public class RedRightScrim extends LinearOpMode
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
-                //strafe to spike mark
+                //strafe to wall
                 while ((robot.x > 12) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
@@ -439,7 +439,7 @@ public class RedRightScrim extends LinearOpMode
             //line up with backdrop according to randomization
             if(auto == autoPos.left)
             {
-                while ((robot.x < 34) && opModeIsActive())
+                while ((robot.x < 22) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -453,7 +453,7 @@ public class RedRightScrim extends LinearOpMode
 
             if(auto == autoPos.center)
             {
-                while ((robot.x < 26) && opModeIsActive())
+                while ((robot.x < 21) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -467,7 +467,7 @@ public class RedRightScrim extends LinearOpMode
 
             if(auto == autoPos.right)
             {
-                while ((robot.x < 23) && opModeIsActive())
+                while ((robot.x < 18) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
