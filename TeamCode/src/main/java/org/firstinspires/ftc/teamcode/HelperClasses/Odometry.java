@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.HelperClasses;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Hardware;
-import org.openftc.revextensions2.ExpansionHubEx;
-import org.openftc.revextensions2.ExpansionHubMotor;
-import org.openftc.revextensions2.RevBulkData;
+import org.firstinspires.ftc.teamcode.Mechanisms.Drivetrain;
+import org.firstinspires.ftc.teamcode.Mechanisms.LineSensor;
+import org.firstinspires.ftc.teamcode.Mechanisms.Odom;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
 
@@ -14,12 +16,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Odometry extends Hardware
-{
-    public Odometry (HardwareMap hardwareMap)
-    {
-        super(hardwareMap);
+public class Odometry  {
+    //Odometry Helper Class Variables
+    public double x = 0;
+    public double y = 0;
+    public double theta = 0;
+    private static LinearOpMode currentOpMode;
+
+    private DcMotorEx leftOdom, rightOdom, centerOdom;
+
+    // Real world distance traveled by the wheels
+    private double leftOdomTraveled, rightOdomTraveled, centerOdomTraveled;
+
+    // Odometry encoder positions
+    public int leftEncoderPos;
+    public int centerEncoderPos;
+    public int rightEncoderPos;
+
+    //used in our odo but not RoadRunner classes
+    private static final double ODOM_TICKS_PER_IN = 335.4658854;
+    private static double trackwidth = 15.57716028;
+
+    public Odometry (HardwareMap hardwareMap) {
+        super();
+        //Odom
+        leftOdom = hardwareMap.get(DcMotorEx.class, "Front Right");
+        rightOdom = hardwareMap.get(DcMotorEx.class, "Back Right");
+        centerOdom = hardwareMap.get(DcMotorEx.class, "Front Left");
     }
+
 
     //constructs localizer object using one parameter of a list of three wheel positions
     public ThreeTrackingWheelLocalizer odom = new ThreeTrackingWheelLocalizer
@@ -140,13 +165,4 @@ public class Odometry extends Hardware
         centerOdom.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         centerOdom.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
-    public void softBrake()
-    {
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-    }
-
 }
