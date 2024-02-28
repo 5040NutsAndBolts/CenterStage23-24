@@ -20,15 +20,12 @@ public class OdomTest extends LinearOpMode
         Drivetrain drivetrain = new Drivetrain(hardwareMap);
 
         waitForStart();
-        drivetrain.softBrake();
         robot.resetOdometry(0,0,0);
-
-        drivetrain.setMotorDirections(DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE);
 
         while(opModeIsActive())
         {
             robot.updatePositionRoadRunner();
-            Drivetrain.robotODrive(0, 0, gamepad1.right_stick_x);
+            drivetrain.robotODrive(0, 0, gamepad1.right_stick_x);
             telemetry.addData("left", robot.leftEncoderPos);
             telemetry.addData("right", robot.rightEncoderPos);
             telemetry.addData("center", robot.centerEncoderPos);

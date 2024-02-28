@@ -4,13 +4,17 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
 import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Mechanisms.ArduCam;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -19,15 +23,8 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name = "Blue Left Auto", group = "Autonomous")
 public class BlueLeftScrim extends LinearOpMode
 {
-    public enum autoPos
-    {
-        left,
-        right,
-        center
-    }
-    autoPos auto = autoPos.right;
-
     public boolean lineSeen;
+    private spikeMarkPosition spikePos;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -35,48 +32,15 @@ public class BlueLeftScrim extends LinearOpMode
         //initializes robot
         Odometry robot = new Odometry(hardwareMap);
 
-        //camera setup
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        OpenCvWebcam webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
-
-        webcam.setMillisecondsPermissionTimeout(2500); // Timeout for obtaining permission is configurable. Set before opening.
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                //set this to dimensions of camera
-                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
-            }
-
-            @Override
-            public void onError(int errorCode)
-            {
-
-            }
-        });
-        webcam.setPipeline(new BlueFinder());
+        ArduCam camera = AutoMethods.initializeCamera(hardwareMap, AllianceColor.blue);
+        OpenCvWebcam webcam = AutoMethods.initializeOpenCv(hardwareMap, camera);
 
         Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
 
         while(!isStopRequested() && !isStarted())
         {
-            if(BlueFinder.width < 60 || BlueFinder.height < 30)
-                auto = autoPos.right;
-            else
-            {
-                if(BlueFinder.screenPosition.x > 100)
-                    auto = autoPos.center;
-                else
-                    auto = autoPos.left;
-            }
-
-            telemetry.addData("Auto", auto);
-            telemetry.addData("X Pos", TSEFinder.screenPosition.x);
-            telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
-            telemetry.update();
-            dashboardTelemetry.addData("auto", auto);
-            dashboardTelemetry.update();
+            spikePos = AutoMethods.spikeMarkFinder(camera);
+            AutoMethods.displayCameraTelemetry(telemetry, dashboardTelemetry, spikePos);
         }
 
         robot.resetOdometry(0,0,0);

@@ -48,7 +48,7 @@ public class Lift {
         transferM1.setPower(0);
         transferM2.setPower(0);
     }
-    public double getSlidePosition(){
+    public int getSlidePosition(){
         return (transferM1.getCurrentPosition() + transferM2.getCurrentPosition()) / 2;
     }
 }
