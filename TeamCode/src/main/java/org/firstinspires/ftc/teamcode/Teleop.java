@@ -18,9 +18,6 @@ public class Teleop extends LinearOpMode {
         Dronelauncher dronelauncher = new Dronelauncher(hardwareMap);
         Lift lift = new Lift(hardwareMap);
         Intake intake = new Intake(hardwareMap);
-
-        Odom robot = new Odom(hardwareMap);
-
         waitForStart();
 
         while(opModeIsActive())
@@ -29,14 +26,14 @@ public class Teleop extends LinearOpMode {
             if (gamepad1.dpad_up)
                 drivetrain.toggleSlowMode();
 
-
             //drive mode toggles
             if (gamepad1.dpad_right)
                 robotDrive = true;
             if (gamepad1.dpad_left)
                 robotDrive = false;
 
-            //Drivetrain code
+
+            //Drivetrain
             if(robotDrive)
                 drivetrain.robotODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
                         gamepad1.right_stick_x * driveSpeed);
@@ -45,7 +42,7 @@ public class Teleop extends LinearOpMode {
                         -gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
 
 
-            //Transfer Code
+            //Transfer
             if (gamepad1.right_stick_y < -.05)
                 lift.goUp(gamepad1.right_stick_y);
             else if (gamepad1.right_stick_y > .05)
@@ -54,11 +51,12 @@ public class Teleop extends LinearOpMode {
                 lift.setPowerZero();
 
 
-            //Drone Launcher Code
+            //Drone Launcher
             if (!gamepad1.b)
                 dronelauncher.launch();
 
-            //Intake code
+
+            //Intake
             //Spin Inwards
             if(gamepad1.right_trigger > .05)
                 intake.spinInwards(gamepad1.right_trigger);
@@ -70,7 +68,7 @@ public class Teleop extends LinearOpMode {
                 intake.setPowerZero();
 
 
-            //Deposit code --
+            //Deposit
             if (gamepad1.right_bumper)
                 deposit.rightDrop();
              else
@@ -79,7 +77,7 @@ public class Teleop extends LinearOpMode {
                 deposit.leftDrop();
              else
                 deposit.leftZeroPosition();
-            // -- End Deposit Code
+
 
             //Telemetry
             telemetry.addData("slide height", lift.getSlidePosition());

@@ -151,6 +151,7 @@ public class RedLeftScrim extends LinearOpMode
                     robot.intakeMotor.setPower(1);
                     robot.intakeServo.setPower(-1);
 
+
                     telemetry.addData("time", depositTimer.seconds());
                     telemetry.update();
                 }

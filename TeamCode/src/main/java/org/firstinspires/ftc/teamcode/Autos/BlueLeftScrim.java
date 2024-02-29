@@ -15,16 +15,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Mechanisms.ArduCam;
+import org.firstinspires.ftc.teamcode.Mechanisms.Drivetrain;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "Blue Left Auto", group = "Autonomous")
-public class BlueLeftScrim extends LinearOpMode
-{
+public class BlueLeftScrim extends AutoMethods {
     public boolean lineSeen;
-    private spikeMarkPosition spikePos;
+    private SpikeMarkPosition spikePos;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -32,15 +32,15 @@ public class BlueLeftScrim extends LinearOpMode
         //initializes robot
         Odometry robot = new Odometry(hardwareMap);
 
-        ArduCam camera = AutoMethods.initializeCamera(hardwareMap, AllianceColor.blue);
-        OpenCvWebcam webcam = AutoMethods.initializeOpenCv(hardwareMap, camera);
+        ArduCam camera = initializeCamera(AllianceColor.blue);
+        OpenCvWebcam webcam = initializeOpenCv(hardwareMap, camera);
 
         Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
 
-        while(!isStopRequested() && !isStarted())
-        {
-            spikePos = AutoMethods.spikeMarkFinder(camera);
-            AutoMethods.displayCameraTelemetry(telemetry, dashboardTelemetry, spikePos);
+        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        while(!isStopRequested() && !isStarted()) {
+            spikePos = spikeMarkFinder(camera);
+            displayCameraTelemetry(telemetry, dashboardTelemetry, spikePos);
         }
 
         robot.resetOdometry(0,0,0);
@@ -50,6 +50,9 @@ public class BlueLeftScrim extends LinearOpMode
         while(opModeIsActive())
         {
             //strafe right
+            moveY(-1, robot, drivetrain, telemetry);
+
+
             while(robot.y > -1 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();

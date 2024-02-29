@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "Blue Right Auto", group = "Autonomous")
-public class BlueRightScrim extends LinearOpMode
+public class BlueRightScrim extends AutoMethods
 {
     public enum autoPos
     {

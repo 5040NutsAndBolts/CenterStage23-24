@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autos;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
@@ -16,11 +16,11 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-
-public class AutoMethods {
+@Disabled
+public class AutoMethods extends LinearOpMode {
 
     //CAMERA METHODS ------------------------------------------------------------------------------------------------
-    public static ArduCam initializeCamera(HardwareMap hardwareMap, AllianceColor allianceColor) {
+    public static ArduCam initializeCamera(AllianceColor allianceColor) {
         return new ArduCam(allianceColor);
     }
 
@@ -41,6 +41,7 @@ public class AutoMethods {
         return webcam;
     }
     public static SpikeMarkPosition spikeMarkFinder(ArduCam cam) {
+        //This is what to tune when the positions of what we are looking for change, like when we move the camera
         if (cam.getWidth() < 60 || cam.getHeight() < 30)
             return SpikeMarkPosition.right;
         else {
@@ -149,4 +150,6 @@ public class AutoMethods {
         deposit.leftDrop();
     }
 
+    @Override
+    public void runOpMode() throws InterruptedException {}
 }

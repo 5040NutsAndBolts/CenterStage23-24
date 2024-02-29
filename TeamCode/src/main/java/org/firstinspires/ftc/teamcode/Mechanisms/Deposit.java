@@ -15,12 +15,9 @@ public class Deposit {
     public void rightDrop(){
         depositServoOne.setPosition(.5);
     }
-    public void rightZeroPosition(){
+    public void rightZeroPosition() {
         depositServoOne.setPosition(0);
     }
-
-
-
     public void leftDrop(){
         depositServoTwo.setPosition(.5);
     }
