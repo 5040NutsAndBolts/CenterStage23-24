@@ -28,8 +28,8 @@ public class Hardware
     public DcMotorEx backRight;
 
     //gyro settup
-    public BNO055IMU imu;
-    public double adjust;
+    //public BNO055IMU imu;
+    //public double adjust;
 
     //Transfer Motors and Servos Declaration
     public DcMotorEx transferM1;
@@ -47,6 +47,9 @@ public class Hardware
     //Deposit Servos Declaration
     public Servo depositServoOne;
     public Servo depositServoTwo;
+
+    //pull up motor
+    public DcMotorEx hangMotor;
 
     //Line sensor
     public ColorSensor lineSensor;
@@ -78,16 +81,19 @@ public class Hardware
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         //gyro setup
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        //Odom
-        leftOdom = hardwareMap.get(DcMotorEx.class, "Front Right");
-        rightOdom = hardwareMap.get(DcMotorEx.class, "Back Right");
-        centerOdom = hardwareMap.get(DcMotorEx.class, "Front Left");
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);*/
 
         //Transfer Motor Config -- Raise motor
         transferM1 = hardwareMap.get(DcMotorEx.class, "Transfer Motor 1");
@@ -113,16 +119,16 @@ public class Hardware
         depositServoOne = hardwareMap.get(Servo.class, "Right Deposit");
         depositServoTwo = hardwareMap.get(Servo.class, "Left Deposit");
 
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-
         //color sensor
         lineSensor = hardwareMap.get(ColorSensor.class, "Line Sensor");
+
+        //hang motor
+        hangMotor = hardwareMap.get(DcMotorEx.class, "Hang Motor");
+
+        //Odom
+        leftOdom = hardwareMap.get(DcMotorEx.class, "Front Right");
+        rightOdom = hardwareMap.get(DcMotorEx.class, "Back Right");
+        centerOdom = hardwareMap.get(DcMotorEx.class, "Front Left");
     }
 
     //robot-oriented drive method
@@ -146,7 +152,7 @@ public class Hardware
     }
 
     //field oriented drive
-    public void fieldODrive(double forward, double sideways, double rotation, boolean reset)
+    /*public void fieldODrive(double forward, double sideways, double rotation, boolean reset)
     {
         double P = Math.hypot(sideways, forward);
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
@@ -165,5 +171,5 @@ public class Hardware
         frontRight.setPower(v6);
         backLeft.setPower(v7);
         backRight.setPower(v8);
-    }
+    }*/
 }
