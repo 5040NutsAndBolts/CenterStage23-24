@@ -89,7 +89,7 @@ public class BlueLeftScrim extends LinearOpMode
 
         //this loop runs after play pressed
         while(opModeIsActive()) {
-            //left spike mark
+            //left spike mark//
             if(auto == autoPos.left)
             {
                 //strafe to spike mark

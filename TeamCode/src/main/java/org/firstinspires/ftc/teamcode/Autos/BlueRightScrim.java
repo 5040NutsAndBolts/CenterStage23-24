@@ -90,7 +90,7 @@ public class BlueRightScrim extends LinearOpMode
             dashboardTelemetry.addData("Y Pos", BlueFinder.screenPosition.y);
             dashboardTelemetry.update();
         }
-
+//
         robot.resetOdometry(0,0,0);
         waitForStart();
 

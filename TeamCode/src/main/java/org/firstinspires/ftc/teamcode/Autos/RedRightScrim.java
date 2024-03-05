@@ -263,7 +263,7 @@ public class RedRightScrim extends LinearOpMode
                 ElapsedTime depositTimer = new ElapsedTime();
                 depositTimer.startTime();
 
-                //deposit pixel
+                //deposit pixel//
                 while (depositTimer.seconds() < 4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);

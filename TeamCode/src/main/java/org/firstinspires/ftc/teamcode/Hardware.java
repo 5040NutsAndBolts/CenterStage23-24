@@ -72,7 +72,7 @@ public class Hardware
     public static double trackwidth = 15.57716028;
 
     public Hardware(HardwareMap hardwareMap) {
-        //hang motor
+        //hang motor//
         hangMotor = hardwareMap.get(DcMotorEx.class, "Hang Motor");
 
         //Drive Motor Initialization

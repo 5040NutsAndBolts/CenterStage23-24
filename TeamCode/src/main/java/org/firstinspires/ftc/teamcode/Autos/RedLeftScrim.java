@@ -239,6 +239,7 @@ public class RedLeftScrim extends LinearOpMode
                     telemetry.update();
                 }
 
+                //
                 robot.transferCR1.setPower(0);
                 robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
