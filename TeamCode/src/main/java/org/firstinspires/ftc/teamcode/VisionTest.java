@@ -31,7 +31,7 @@ public class VisionTest extends LinearOpMode
             public void onOpened()
             {
                 //set this line to dimensions of webcam
-                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(800, 600, OpenCvCameraRotation.UPRIGHT);
                 //cheap logitechs are 320, 240
                 //logitech brio is 1280, 720
             }
