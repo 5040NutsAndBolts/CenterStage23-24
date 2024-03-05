@@ -74,6 +74,7 @@ public class Hardware
     public Hardware(HardwareMap hardwareMap) {
         //hang motor
         hangMotor = hardwareMap.get(DcMotorEx.class, "Hang Motor");
+
         //Drive Motor Initialization
         frontLeft = hardwareMap.get(DcMotorEx.class, "Front Left");
         frontRight = hardwareMap.get(DcMotorEx.class, "Front Right");

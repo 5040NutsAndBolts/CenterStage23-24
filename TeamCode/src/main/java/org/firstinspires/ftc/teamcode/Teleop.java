@@ -133,7 +133,7 @@ public class Teleop extends LinearOpMode
 
             //pull up code
             if(gamepad1.left_bumper)
-                robot.hangMotor.setPower(-1);
+                robot.hangMotor.setPower(1);
             else
                 robot.hangMotor.setPower(0);
 

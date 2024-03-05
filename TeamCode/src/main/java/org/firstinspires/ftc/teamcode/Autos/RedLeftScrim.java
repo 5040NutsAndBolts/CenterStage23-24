@@ -106,24 +106,14 @@ public class RedLeftScrim extends LinearOpMode
                 telemetry.update();
             }
 
+            //left spike mark
             if(auto == autoPos.left)
             {
-                //turn left
-                while ((robot.theta < 1.6 || robot.theta > 5) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0, 0, -.5);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-//
                 //strafe to spike mark
-                while ((robot.x < 40) && opModeIsActive()){
+                while ((robot.x < 28) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,.5,0);
+                    robot.robotODrive(-.5,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -131,174 +121,6 @@ public class RedLeftScrim extends LinearOpMode
                     telemetry.update();
                 }
 
-                //slight forward
-                while ((robot.y < -11) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(-.5 ,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                ElapsedTime depositTimer = new ElapsedTime();
-                depositTimer.startTime();
-
-                //deposit spike mark
-                while(depositTimer.seconds() < 5 && opModeIsActive())
-                {
-                    robot.robotODrive(0, 0, 0);
-                    robot.transferCR1.setPower(-1);
-                    robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(0.5);
-                    robot.intakeServo.setPower(-1);
-
-                    telemetry.addData("time", depositTimer.seconds());
-                    telemetry.update();
-                }
-
-                //back away
-                while ((robot.y > -13) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(.25 ,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                if(park)
-                {
-                    //strafe out
-                    while ((robot.x < 64) && opModeIsActive()){
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0,.5,0);
-
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
-
-                    //back away
-                    while ((robot.y > -105) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        if(robot.x < 63)
-                            robot.robotODrive(.5, .25, 0);
-                        else
-                            robot.robotODrive(.5 ,0,0);
-
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
-                }
-
-                robot.transferCR1.setPower(0);
-                robot.transferCR2.setPower(0);
-                robot.intakeMotor.setPower(0);
-                robot.intakeServo.setPower(0);
-            }
-
-            if(auto == autoPos.center)
-            {
-                //drive to spike mark
-                while ((robot.x < 31) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(-.4,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                ElapsedTime depositTimer = new ElapsedTime();
-                depositTimer.startTime();
-
-                //deposit purple pixel
-                while (depositTimer.seconds()<4 && opModeIsActive())
-                {
-                    robot.robotODrive(0, 0, 0);
-                    robot.transferCR1.setPower(-1);
-                    robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(.5);
-                    robot.intakeServo.setPower(-1);
-
-                    telemetry.addData("time", depositTimer.seconds());
-                    telemetry.update();
-                }
-
-                //back away from spike mark
-                while ((robot.x > 18) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(.25,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                if(park)
-                {
-                    //strafe left
-                    while (robot.y < 12 && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0, -.5, 0);
-
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
-
-                    //forward
-                    while ((robot.x < 50) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(-.5,0,0);
-
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
-
-                    //strafe right to park
-                    while (robot.y > -90 && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        if(robot.x > 55)
-                            robot.robotODrive(.25,.5,0);
-                        else
-                            robot.robotODrive(0, .5, 0);
-
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
-                }
-
-                robot.transferCR1.setPower(0);
-                robot.transferCR2.setPower(0);
-                robot.intakeMotor.setPower(0);
-                robot.intakeServo.setPower(0);
-
-            } //end of center spike mark
-
-            if(auto == autoPos.right)
-            {
                 //turn right
                 while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
                 {
@@ -312,10 +134,10 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 39) && opModeIsActive())
+                while ((robot.x < 36.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
+                    robot.robotODrive(0,.5,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -324,10 +146,64 @@ public class RedLeftScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y > 3) && opModeIsActive())
+                while ((robot.y < 24) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(-.2 ,0,0);
+                    robot.robotODrive(.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime depositTimer = new ElapsedTime();
+                depositTimer.startTime();
+
+                //deposit pixel
+                while (depositTimer.seconds()<5 && opModeIsActive())
+                {
+                    robot.robotODrive(0, 0, 0);
+                    robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
+                    robot.intakeMotor.setPower(.75);
+                    robot.intakeServo.setPower(-1);
+
+                    telemetry.addData("time", depositTimer.seconds());
+                    telemetry.update();
+                }
+
+                ElapsedTime dontBreakTheBackBoard = new ElapsedTime();
+                dontBreakTheBackBoard.startTime();
+                //back up
+                while ((robot.y > 0) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.18 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                    if(dontBreakTheBackBoard.seconds() > 2.75)
+                        break;
+                }
+
+                robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
+
+            } //end of auto 1 branch
+
+            //center spike mark
+            if(auto == autoPos.center)
+            {
+                //drive to spike mark
+                while ((robot.x < 29.7) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.5,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -339,23 +215,23 @@ public class RedLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit purple pixel
-                while (depositTimer.seconds()<4 && opModeIsActive())
+                while (depositTimer.seconds() < 4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
-                    robot.intakeMotor.setPower(0.5);
+                    robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
 
                     telemetry.addData("time", depositTimer.seconds());
                     telemetry.update();
                 }
 
-                //back up
-                while ((robot.y < 14) && opModeIsActive())
+                //back away from spike mark
+                while ((robot.x > 8) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.1 ,0,0);
+                    robot.robotODrive(.2,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -368,36 +244,136 @@ public class RedLeftScrim extends LinearOpMode
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
-                if(park)
+                //forward
+                while ((robot.x < 51) && opModeIsActive())
                 {
-                    //strafe left
-                    while ((robot.x < 67) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0,-.5,0);
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,-.5,0);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
-
-                    //into park
-                    while ((robot.y > -83) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        if(robot.x > 65)
-                            robot.robotODrive(-.5 ,.25,0);
-                        else
-                            robot.robotODrive(-.5 ,0,0);
-
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
                 }
-            } //end of right spike mark
+            } //end of auto 2 branch
+
+            //right spike mark
+            if(auto == autoPos.right)
+            {
+                //strafe to spike mark
+                while ((robot.x < 21) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.5,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //turn right
+                while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,.5);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //slight forward
+                while ((robot.y > 3) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.25 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime depositTimer = new ElapsedTime();
+                depositTimer.startTime();
+
+                //deposit pixel
+                while (depositTimer.seconds()< 5 && opModeIsActive())
+                {
+                    robot.robotODrive(0, 0, 0);
+                    robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
+                    robot.intakeMotor.setPower(.75);
+                    robot.intakeServo.setPower(-1);
+
+                    telemetry.addData("time", depositTimer.seconds());
+                    telemetry.update();
+                }
+
+                //back away
+                while ((robot.y < 18) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.18 ,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
+
+                //towards wall
+                while ((robot.x > 15) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                ElapsedTime bangBangTimer = new ElapsedTime();
+                bangBangTimer.startTime();
+
+                //bang into wall
+                while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.addData("bang Time",bangBangTimer);
+                    telemetry.update();
+                }
+
+                ElapsedTime dontBreakTheBackboard = new ElapsedTime();
+                dontBreakTheBackboard.startTime();
+                //strafe to spike mark
+                while ((robot.x < 40) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.5,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                    if(dontBreakTheBackboard.seconds() > 2.5)
+                        break;
+                }
+
+            } // end of auto 3 branch
 
             robot.robotODrive(0,0,0);
             while(true && opModeIsActive())

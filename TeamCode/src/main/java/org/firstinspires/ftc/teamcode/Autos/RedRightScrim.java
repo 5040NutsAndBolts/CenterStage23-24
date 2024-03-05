@@ -88,25 +88,26 @@ public class RedRightScrim extends LinearOpMode
         //this loop runs after play pressed
         while(opModeIsActive())
         {
-            //strafe left
-            while (robot.y < 1 && opModeIsActive())
-            {
-                robot.updatePositionRoadRunner();
-                robot.robotODrive(0, -.5, 0);
-
-                telemetry.addData("x", robot.x);
-                telemetry.addData("y", robot.y);
-                telemetry.addData("theta", robot.theta);
-                telemetry.update();
-            }
 
             if(auto == autoPos.left)
             {
-                //turn left
-                while ((robot.theta < 1.4 || robot.theta > 5) && opModeIsActive())
+                //strafe to spike mark
+                while ((robot.x < 23) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0, 0, -.5);
+                    robot.robotODrive(-.5,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //turn left
+                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,-.5);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -115,7 +116,8 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 39) && opModeIsActive()){
+                while ((robot.x < 36.5) && opModeIsActive())
+                {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
 
@@ -126,7 +128,7 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -3.5) && opModeIsActive())
+                while ((robot.y < -3) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -140,8 +142,8 @@ public class RedRightScrim extends LinearOpMode
                 ElapsedTime depositTimer = new ElapsedTime();
                 depositTimer.startTime();
 
-                //deposit spike mark
-                while(depositTimer.seconds() < 4 && opModeIsActive())
+                //deposit pixel
+                while (depositTimer.seconds() < 3 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
@@ -153,11 +155,11 @@ public class RedRightScrim extends LinearOpMode
                     telemetry.update();
                 }
 
-                //back away
-                while ((robot.y > -10) && opModeIsActive())
+                //back up
+                while ((robot.y > -18) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.125 ,0,0);
+                    robot.robotODrive(.25 ,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -169,40 +171,12 @@ public class RedRightScrim extends LinearOpMode
                 robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
-
-                //strafe to wall
-                while ((robot.x > 12) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                ElapsedTime bangBangTimer = new ElapsedTime();
-                bangBangTimer.startTime();
-
-                //bang into wall
-                while (bangBangTimer.seconds() < 2 && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.15,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.addData("bang Time",bangBangTimer);
-                    telemetry.update();
-                }
-            }
+            } //end of left spike mark
 
             if(auto == autoPos.center)
             {
                 //drive to spike mark
-                while ((robot.x < 31) && opModeIsActive())
+                while ((robot.x < 29.7) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.5,0,0);
@@ -230,7 +204,7 @@ public class RedRightScrim extends LinearOpMode
                 }
 
                 //back away from spike mark
-                while ((robot.x > 10) && opModeIsActive())
+                while ((robot.x > 18) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(.2,0,0);
@@ -240,42 +214,28 @@ public class RedRightScrim extends LinearOpMode
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
-
                 robot.transferCR1.setPower(0);
                 robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
-                //rotate so deposit faces backdrop
-                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,0,-.5);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                //wall wham
-                ElapsedTime bangBangTimer = new ElapsedTime();
-                bangBangTimer.startTime();
-
-                while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-            }
+            } //end of center spike mark
 
             if(auto == autoPos.right)
             {
+
+                //strafe to spike mark
+                while ((robot.x < 23) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.5,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
                 //turn right
                 while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
                 {
@@ -288,20 +248,8 @@ public class RedRightScrim extends LinearOpMode
                     telemetry.update();
                 }
 
-                //strafe to spike mark
-                while ((robot.x < 38) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
                 //slight forward
-                while ((robot.y > 9) && opModeIsActive())
+                while ((robot.y > 10.6) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -315,7 +263,7 @@ public class RedRightScrim extends LinearOpMode
                 ElapsedTime depositTimer = new ElapsedTime();
                 depositTimer.startTime();
 
-                //deposit purple pixel
+                //deposit pixel
                 while (depositTimer.seconds() < 4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
@@ -328,11 +276,11 @@ public class RedRightScrim extends LinearOpMode
                     telemetry.update();
                 }
 
-                //back up
-                while ((robot.y < 13) && opModeIsActive())
+                //back away
+                while ((robot.y < 16) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.2 ,0,0);
+                    robot.robotODrive(.1 ,0,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -344,46 +292,7 @@ public class RedRightScrim extends LinearOpMode
                 robot.transferCR2.setPower(0);
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
-
-                //strafe towards wall
-                while ((robot.x > 20) && opModeIsActive()){
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,.5,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                //turn left
-                while((robot.theta < 1.5 || robot.theta > 4) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,0,-.5);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                ElapsedTime bangBangTimer = new ElapsedTime();
-                bangBangTimer.startTime();
-
-                //bang into wall
-                while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.addData("bang Time",bangBangTimer);
-                    telemetry.update();
-                }
-            }
+            } //end of right spike mark
 
             //update robots position based on being pressed against wall
             robot.odom.setPoseEstimate(new Pose2d(0, robot.y, Math.PI / 2));
@@ -481,7 +390,10 @@ public class RedRightScrim extends LinearOpMode
 
             robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //raise slides
-            while(robot.transferM1.getCurrentPosition() < 1200 && opModeIsActive())
+            while(robot.transferM1.getCurrentPosition() < 800
+
+
+                    && opModeIsActive())
             {
                 robot.robotODrive(0,0,0);
                 robot.transferM1.setPower(1);

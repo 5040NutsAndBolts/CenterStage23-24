@@ -27,7 +27,7 @@ public class BlueRightScrim extends LinearOpMode
     autoPos auto = autoPos.left;
 
     //park toggle variables
-    public boolean park = false;
+    public boolean park = true;
     public boolean aPressed;
 
     @Override
