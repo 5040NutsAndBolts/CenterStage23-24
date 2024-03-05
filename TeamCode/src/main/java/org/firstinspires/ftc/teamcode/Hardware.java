@@ -21,6 +21,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 public class Hardware
 {
+
+    //pull up motor
+    public DcMotorEx hangMotor;
+
     //Drive Motors Declaration
     public DcMotorEx frontLeft;
     public DcMotorEx frontRight;
@@ -28,8 +32,8 @@ public class Hardware
     public DcMotorEx backRight;
 
     //gyro settup
-    public BNO055IMU imu;
-    public double adjust;
+    //public BNO055IMU imu;
+    //public double adjust;
 
     //Transfer Motors and Servos Declaration
     public DcMotorEx transferM1;
@@ -67,8 +71,9 @@ public class Hardware
     public static final double ODOM_TICKS_PER_IN = 335.4658854;
     public static double trackwidth = 15.57716028;
 
-    public Hardware(HardwareMap hardwareMap)
-    {
+    public Hardware(HardwareMap hardwareMap) {
+        //hang motor
+        hangMotor = hardwareMap.get(DcMotorEx.class, "Hang Motor");
         //Drive Motor Initialization
         frontLeft = hardwareMap.get(DcMotorEx.class, "Front Left");
         frontRight = hardwareMap.get(DcMotorEx.class, "Front Right");
@@ -79,10 +84,10 @@ public class Hardware
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //gyro setup
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        //imu = hardwareMap.get(BNO055IMU.class, "imu");
+        //imu.initialize(parameters);
+        //imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         //Odom
         leftOdom = hardwareMap.get(DcMotorEx.class, "Front Right");
@@ -146,24 +151,24 @@ public class Hardware
     }
 
     //field oriented drive
-    public void fieldODrive(double forward, double sideways, double rotation, boolean reset)
-    {
-        double P = Math.hypot(sideways, forward);
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+    //public void fieldODrive(double forward, double sideways, double rotation, boolean reset)
+    //{
+    //    double P = Math.hypot(sideways, forward);
+    //    Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
 
-        double robotAngle = Math.atan2(forward, sideways);
+    //    double robotAngle = Math.atan2(forward, sideways);
 
-        if (reset)
-            adjust = angles.firstAngle;
+    //    if (reset)
+    //        adjust = angles.firstAngle;
 
-        double v5 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
-        double v6 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
-        double v7 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
-        double v8 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
+    //    double v5 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
+    //    double v6 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
+    //    double v7 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
+    //    double v8 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
 
-        frontLeft.setPower(v5);
-        frontRight.setPower(v6);
-        backLeft.setPower(v7);
-        backRight.setPower(v8);
-    }
+    //    frontLeft.setPower(v5);
+    //    frontRight.setPower(v6);
+    //    backLeft.setPower(v7);
+    //    backRight.setPower(v8);
+    //}
 }

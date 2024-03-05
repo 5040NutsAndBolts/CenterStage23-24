@@ -43,12 +43,12 @@ public class TwoDriverTeleop extends LinearOpMode
                 robotDrive = false;
 
             //Drivetrain code
-            if(robotDrive)
+            //if(robotDrive)
                 robot.robotODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
                         gamepad1.right_stick_x * driveSpeed);
-            if(!robotDrive)
-                robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
-                        gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
+            //if(!robotDrive)
+            //    robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
+            //            gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
 
             //SLides Code --
             //slides go up proportionally to stick value

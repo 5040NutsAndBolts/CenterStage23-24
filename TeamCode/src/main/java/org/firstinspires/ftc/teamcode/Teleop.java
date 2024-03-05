@@ -46,12 +46,12 @@ public class Teleop extends LinearOpMode
                 robotDrive = false;
 
             //Drivetrain code
-            if(robotDrive)
+            //if(robotDrive)
                 robot.robotODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
                         gamepad1.right_stick_x * driveSpeed);
-            if(!robotDrive)
-                robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
-                        -gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
+            //if(!robotDrive)
+            //    robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
+            //            -gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
 
             //Transfer Code --
             //slides go up proportionally to stick value
@@ -130,6 +130,13 @@ public class Teleop extends LinearOpMode
              else
                 robot.depositServoTwo.setPosition(0);
             // -- End Deposit Code
+
+            //pull up code
+            if(gamepad1.left_bumper)
+                robot.hangMotor.setPower(-1);
+            else
+                robot.hangMotor.setPower(0);
+
 
             //Telemetry
             telemetry.addData("slide height", robot.transferM1.getCurrentPosition());

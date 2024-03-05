@@ -27,7 +27,7 @@ public class BlueRightScrim extends LinearOpMode
     autoPos auto = autoPos.left;
 
     //park toggle variables
-    public boolean park = true;
+    public boolean park = false;
     public boolean aPressed;
 
     @Override
@@ -97,20 +97,20 @@ public class BlueRightScrim extends LinearOpMode
         //this loop runs after play pressed
         while(opModeIsActive())
         {
-            //strafe left
-            while(robot.y < 1 && opModeIsActive())
-            {
-                robot.updatePositionRoadRunner();
-                robot.robotODrive(0,-.5,0);
-
-                telemetry.addData("x", robot.x);
-                telemetry.addData("y", robot.y);
-                telemetry.addData("theta", robot.theta);
-                telemetry.update();
-            }
-
             if(auto == autoPos.left)
             {
+                //strafe to spike mark
+                while ((robot.x < 23) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.5,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
                 //turn left
                 while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
                 {
@@ -124,7 +124,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //strafe to spike mark
-                while ((robot.x < 41) && opModeIsActive())
+                while ((robot.x < 36.5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -136,7 +136,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //slight forward
-                while ((robot.y < -2) && opModeIsActive())
+                while ((robot.y < -3) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -225,7 +225,7 @@ public class BlueRightScrim extends LinearOpMode
             if(auto == autoPos.center)
             {
                 //drive to spike mark
-                while ((robot.x < 30) && opModeIsActive())
+                while ((robot.x < 29.7) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.5,0,0);
@@ -314,6 +314,19 @@ public class BlueRightScrim extends LinearOpMode
 
             if(auto == autoPos.right)
             {
+
+                //strafe to spike mark
+                while ((robot.x < 23) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.5,0,0);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
                 //turn right
                 while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
                 {
@@ -326,20 +339,8 @@ public class BlueRightScrim extends LinearOpMode
                     telemetry.update();
                 }
 
-                //strafe to spike mark
-                while ((robot.x < 36) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
                 //slight forward
-                while ((robot.y > 11.5) && opModeIsActive())
+                while ((robot.y > 10.6) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(-.25 ,0,0);
@@ -367,7 +368,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //back away
-                while ((robot.y < 14) && opModeIsActive())
+                while ((robot.y < 16) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(.1 ,0,0);
