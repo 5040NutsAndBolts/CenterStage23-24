@@ -88,52 +88,47 @@ public class BlueLeftScrim extends LinearOpMode
         waitForStart();
 
         //this loop runs after play pressed
-        while(opModeIsActive()) {
+        while(opModeIsActive())
+        {
             //left spike mark//
             if(auto == autoPos.left)
             {
-                //strafe to spike mark
-                while ((robot.x < 28) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(-.5,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                //turn right
-                while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,0,.5);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                }
-
-                //strafe to spike mark
-                while ((robot.x < 36.5) && opModeIsActive())
+                //strafe right
+                while(robot.y > -1 && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
-
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
 
-                //slight forward
-                while ((robot.y < 24) && opModeIsActive())
+                //turn left
+                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(.25 ,0,0);
-
+                    robot.robotODrive(0,0,-.5);
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+                //strafe to spike mark
+                while ((robot.x < 40) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+                //slight forward
+                while ((robot.y < -10) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.25 ,0,0);
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
                     telemetry.addData("theta", robot.theta);
@@ -142,35 +137,29 @@ public class BlueLeftScrim extends LinearOpMode
 
                 ElapsedTime depositTimer = new ElapsedTime();
                 depositTimer.startTime();
-
                 //deposit pixel
-                while (depositTimer.seconds()<5 && opModeIsActive())
+                while (depositTimer.seconds()<4 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
                     robot.transferCR2.setPower(-1);
                     robot.intakeMotor.setPower(.75);
                     robot.intakeServo.setPower(-1);
-
                     telemetry.addData("time", depositTimer.seconds());
                     telemetry.update();
                 }
 
-                ElapsedTime dontBreakTheBackBoard = new ElapsedTime();
-                dontBreakTheBackBoard.startTime();
                 //back up
-                while ((robot.y > 0) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(.18 ,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                    if(dontBreakTheBackBoard.seconds() > 2.75)
-                        break;
-                }
+                while ((robot.y > -14) && opModeIsActive())
+                    while ((robot.y > -12) && opModeIsActive())
+                    {
+                        robot.updatePositionRoadRunner();
+                        robot.robotODrive(.25 ,0,0);
+                        telemetry.addData("x", robot.x);
+                        telemetry.addData("y", robot.y);
+                        telemetry.addData("theta", robot.theta);
+                        telemetry.update();
+                    }
 
                 robot.transferCR1.setPower(0);
                 robot.transferCR2.setPower(0);
@@ -181,20 +170,18 @@ public class BlueLeftScrim extends LinearOpMode
                 while ((robot.x > 20) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,.5,0);
-
+                    robot.robotODrive(0,-.5,0);
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
                     telemetry.addData("theta", robot.theta);
                     telemetry.update();
                 }
 
-                //turn left
+                //turn right
                 while((robot.theta < 4.6) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,0,-.5);
-
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
                     telemetry.addData("theta", robot.theta);
@@ -203,20 +190,17 @@ public class BlueLeftScrim extends LinearOpMode
 
                 ElapsedTime bangBangTimer = new ElapsedTime();
                 bangBangTimer.startTime();
-
                 //bang into wall
                 while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
-
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
                     telemetry.addData("theta", robot.theta);
                     telemetry.addData("bang Time",bangBangTimer);
                     telemetry.update();
                 }
-
             } //end of auto 1 branch
 
             //center spike mark
@@ -267,11 +251,24 @@ public class BlueLeftScrim extends LinearOpMode
                 robot.intakeMotor.setPower(0);
                 robot.intakeServo.setPower(0);
 
-                //forward
-                while ((robot.x < 51) && opModeIsActive())
+                //rotate so deposit faces backdrop
+                while((robot.theta > 5.0 || robot.theta < 1) && opModeIsActive()) {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,.5);
+
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
+
+                //wall wham
+                ElapsedTime bangBangTimer = new ElapsedTime();
+                bangBangTimer.startTime();
+                while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
+                    robot.robotODrive(0,.5,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -379,23 +376,6 @@ public class BlueLeftScrim extends LinearOpMode
                     telemetry.addData("bang Time",bangBangTimer);
                     telemetry.update();
                 }
-
-                ElapsedTime dontBreakTheBackboard = new ElapsedTime();
-                dontBreakTheBackboard.startTime();
-                //strafe to spike mark
-                while ((robot.x < 40) && opModeIsActive())
-                {
-                    robot.updatePositionRoadRunner();
-                    robot.robotODrive(.5,0,0);
-
-                    telemetry.addData("x", robot.x);
-                    telemetry.addData("y", robot.y);
-                    telemetry.addData("theta", robot.theta);
-                    telemetry.update();
-                    if(dontBreakTheBackboard.seconds() > 2.5)
-                        break;
-                }
-
             } // end of auto 3 branch
 
             //resets where the robot thinks it is based on being pressed against the wall
@@ -403,7 +383,7 @@ public class BlueLeftScrim extends LinearOpMode
             robot.updatePositionRoadRunner();
 
             //strafe away from wall
-            while ((robot.x < 3) && opModeIsActive())
+            while ((robot.x < 5) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,-.5,0);
@@ -493,81 +473,81 @@ public class BlueLeftScrim extends LinearOpMode
                 }
             }
 
-            //robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            ////raise slides
-            //while(robot.transferM1.getCurrentPosition() < 800 && opModeIsActive())
-            //{
-            //    robot.robotODrive(0,0,0);
-            //    robot.transferM1.setPower(1);
-            //    robot.transferM2.setPower(1);
-            //}
-//
-            //robot.transferM1.setPower(.1);
-            //robot.transferM2.setPower(.1);
-//
-            ////get to backdrop (this is what happens whe no side rollers)
-            //ElapsedTime timeCease = new ElapsedTime();
-            //timeCease.startTime();
-//
-            ////forward a little to backdrop
-            //while ((robot.y < 50) && opModeIsActive())
-            //{
-            //    robot.updatePositionRoadRunner();
-            //    robot.robotODrive(.25 ,0,0);
-//
-            //    telemetry.addData("x", robot.x);
-            //    telemetry.addData("y", robot.y);
-            //    telemetry.addData("theta", robot.theta);
-            //    telemetry.update();
-//
-            //    if(timeCease.seconds() > 3)
-            //        break;
-            //}
-//
-            //ElapsedTime pause = new ElapsedTime();
-            //pause.startTime();
-            //while(pause.seconds() < 1)
-            //{
-            //    robot.robotODrive(0,0,0);
-            //}
-//
-            ////deposit pixel
-            //robot.depositServoOne.setPosition(.5);
-            //robot.depositServoTwo.setPosition(.5);
-//
-            ////wait at backdrop
-            //pause.reset();
-            //pause.startTime();
-            //while(pause.seconds() < 1)
-            //{
-            //    robot.robotODrive(0,0,0);
-            //}
-//
-            ////forward away from backdrop
-            //while ((robot.y > 34) && opModeIsActive())
-            //{
-            //    robot.updatePositionRoadRunner();
-            //    robot.robotODrive(-.5 ,0,0);
-//
-            //    telemetry.addData("x", robot.x);
-            //    telemetry.addData("y", robot.y);
-            //    telemetry.addData("theta", robot.theta);
-            //    telemetry.update();
-            //}
-//
-            ////closes deposit
-            //robot.depositServoOne.setPosition(0);
-            //robot.depositServoTwo.setPosition(0);
-//
-            //robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            //robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            ////lowers slides
-            //while(robot.transferM1.getCurrentPosition() > 50 && opModeIsActive())
-            //{
-            //    robot.robotODrive(0,0,0);
-            //    robot.transferM1.setPower(-.2);
-            //    robot.transferM2.setPower(-.2);
-            //}
+            robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //raise slides
+            while(robot.transferM1.getCurrentPosition() < 800 && opModeIsActive())
+            {
+                robot.robotODrive(0,0,0);
+                robot.transferM1.setPower(1);
+                robot.transferM2.setPower(1);
+            }
+
+            robot.transferM1.setPower(.1);
+            robot.transferM2.setPower(.1);
+
+            //get to backdrop (this is what happens whe no side rollers)
+            ElapsedTime timeCease = new ElapsedTime();
+            timeCease.startTime();
+
+            //forward a little to backdrop
+            while ((robot.y < 50) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(.25 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+
+                if(timeCease.seconds() > 3)
+                    break;
+            }
+
+            ElapsedTime pause = new ElapsedTime();
+            pause.startTime();
+            while(pause.seconds() < 1)
+            {
+                robot.robotODrive(0,0,0);
+            }
+
+            //deposit pixel
+            robot.depositServoOne.setPosition(.5);
+            robot.depositServoTwo.setPosition(.5);
+
+            //wait at backdrop
+            pause.reset();
+            pause.startTime();
+            while(pause.seconds() < 1)
+            {
+                robot.robotODrive(0,0,0);
+            }
+
+            //forward away from backdrop
+            while ((robot.y > 34) && opModeIsActive())
+            {
+                robot.updatePositionRoadRunner();
+                robot.robotODrive(-.5 ,0,0);
+
+                telemetry.addData("x", robot.x);
+                telemetry.addData("y", robot.y);
+                telemetry.addData("theta", robot.theta);
+                telemetry.update();
+            }
+
+            //closes deposit
+            robot.depositServoOne.setPosition(0);
+            robot.depositServoTwo.setPosition(0);
+
+            robot.transferM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            robot.transferM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            //lowers slides
+            while(robot.transferM1.getCurrentPosition() > 50 && opModeIsActive())
+            {
+                robot.robotODrive(0,0,0);
+                robot.transferM1.setPower(-.2);
+                robot.transferM2.setPower(-.2);
+            }
 
             robot.transferM1.setPower(0);
             robot.transferM2.setPower(0);
