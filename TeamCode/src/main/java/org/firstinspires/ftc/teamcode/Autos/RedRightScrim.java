@@ -65,10 +65,10 @@ public class RedRightScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            if (RedFinder.screenPosition.x < 150)
-                auto = autoPos.left;
-            else if(RedFinder.screenPosition.x > 600)
+            if(RedFinder.screenPosition.x > 800)
                 auto = autoPos.right;
+            else if (RedFinder.screenPosition.x < 350)
+                auto = autoPos.left;
             else
                 auto = autoPos.center;
 
@@ -407,7 +407,7 @@ public class RedRightScrim extends LinearOpMode
             timeOut.startTime();
 
             //approach backdrop until robot sees line or hits timeout
-            while (timeOut.seconds() < 4 && opModeIsActive())
+            while (timeOut.seconds() < 6 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.2 ,0,0);
@@ -472,7 +472,7 @@ public class RedRightScrim extends LinearOpMode
                 while ((robot.x < 20) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,.5,0);
+                    robot.robotODrive(0,-.5,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
