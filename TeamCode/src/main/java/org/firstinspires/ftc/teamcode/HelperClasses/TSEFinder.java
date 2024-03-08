@@ -61,9 +61,9 @@ public class TSEFinder extends OpenCvPipeline
 
             //controls the color range the camera is looking for in the hsv color space
             //the hue value is scaled by .5, the saturation and value are scaled by 2.55
-            Core.inRange(workingMat,new Scalar(90,60,60),new Scalar(120,255,255),workingMat);
+            Core.inRange(workingMat,new Scalar(150,60,60),new Scalar(190,255,255),workingMat);
             //blue = hue 90 - 120
-            //red = hue 0 - 15, 160 - 180
+            //red = hue 0 - 15, 150 - 190
 
             // Creates a list for all contoured objects the camera will find
             List<MatOfPoint> contoursList = new ArrayList<>();

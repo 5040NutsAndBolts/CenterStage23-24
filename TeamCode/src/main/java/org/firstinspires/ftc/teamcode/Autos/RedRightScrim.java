@@ -188,10 +188,10 @@ public class RedRightScrim extends LinearOpMode
                 bangBangTimer.startTime();
 
                 //bang into wall
-                while (bangBangTimer.seconds() < 3 && opModeIsActive())
+                while (bangBangTimer.seconds() < 2.5 && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.15,0);
+                    robot.robotODrive(0,-.5,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -263,7 +263,7 @@ public class RedRightScrim extends LinearOpMode
                 ElapsedTime bangBangTimer = new ElapsedTime();
                 bangBangTimer.startTime();
 
-                while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
+                while (bangBangTimer.seconds() < 1.5 && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -277,7 +277,6 @@ public class RedRightScrim extends LinearOpMode
 
             if(auto == autoPos.right)
             {
-
                 //strafe to spike mark
                 while ((robot.x < 23) && opModeIsActive())
                 {
@@ -441,7 +440,7 @@ public class RedRightScrim extends LinearOpMode
             //line up with backdrop according to randomization
             if(auto == autoPos.left)
             {
-                while ((robot.x < 24) && opModeIsActive())
+                while ((robot.x < 31) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -455,7 +454,7 @@ public class RedRightScrim extends LinearOpMode
 
             if(auto == autoPos.center)
             {
-                while ((robot.x < 22) && opModeIsActive())
+                while ((robot.x < 28) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,.5,0);
@@ -469,10 +468,10 @@ public class RedRightScrim extends LinearOpMode
 
             if(auto == autoPos.right)
             {
-                while ((robot.x < 20) && opModeIsActive())
+                while ((robot.x < 24) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
-                    robot.robotODrive(0,-.5,0);
+                    robot.robotODrive(0,.5,0);
 
                     telemetry.addData("x", robot.x);
                     telemetry.addData("y", robot.y);
@@ -500,7 +499,7 @@ public class RedRightScrim extends LinearOpMode
             timeCease.startTime();
 
             //get to backdrop
-            while ((robot.y > -46.5) && opModeIsActive())
+            while ((robot.y > -47) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(.25 ,0,0);
@@ -563,7 +562,7 @@ public class RedRightScrim extends LinearOpMode
             robot.transferM2.setPower(0);
 
             //towards wall
-            while ((robot.x > 5) && opModeIsActive())
+            while ((robot.x > 4) && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
                 robot.robotODrive(0,-.5,0);

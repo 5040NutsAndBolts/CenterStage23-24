@@ -195,24 +195,17 @@ public class BlueRightScrim extends LinearOpMode
                         telemetry.update();
                     }
 
-                    //forawrd to park
+                    //forward to park
                     while ((robot.y < 77) && opModeIsActive())
                     {
-
                         robot.updatePositionRoadRunner();
-                        robot.robotODrive(-.5 ,0,0);
 
-                        if(robot.x < 64)
-                        {
-                            robot.updatePositionRoadRunner();
-                            robot.robotODrive(0,.5,0);
-                        }
-
-                        if(robot.x > 66)
-                        {
-                            robot.updatePositionRoadRunner();
-                            robot.robotODrive(0,-.5,0);
-                        }
+                        if (robot.x < 64)
+                            robot.robotODrive(-.5,.5,0);
+                        else if (robot.x > 66)
+                            robot.robotODrive(-.5,-.5,0);
+                        else
+                            robot.robotODrive(-.5 ,0,0);
 
                         telemetry.addData("x", robot.x);
                         telemetry.addData("y", robot.y);
@@ -295,12 +288,14 @@ public class BlueRightScrim extends LinearOpMode
                     }
 
                     //strafe
-                    while ((robot.y < 93) && opModeIsActive())
+                    while ((robot.y < 88) && opModeIsActive())
                     {
                         robot.updatePositionRoadRunner();
 
-                        if(robot.x < 48)
+                        if(robot.x < 50)
                             robot.robotODrive(-.25,-.5,0);
+                        if(robot.x > 54)
+                            robot.robotODrive(.25,-.5,0);
                         else
                             robot.robotODrive(0, -.5, 0);
 
@@ -368,7 +363,7 @@ public class BlueRightScrim extends LinearOpMode
                 }
 
                 //back away
-                while ((robot.y < 16) && opModeIsActive())
+                while ((robot.y < 15) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(.1 ,0,0);
