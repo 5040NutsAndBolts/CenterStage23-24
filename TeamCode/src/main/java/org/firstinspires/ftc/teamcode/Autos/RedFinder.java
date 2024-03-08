@@ -60,14 +60,14 @@ public class RedFinder extends OpenCvPipeline
 
         //controls the color range the camera is looking for in the hsv color space
         //the hue value is scaled by .5, the saturation and value are scaled by 2.55
-        Core.inRange(workingMat,new Scalar(160,60,60),new Scalar(180,255,255),workingMat);
+        Core.inRange(workingMat,new Scalar(150,50,50),new Scalar(190,255,255),workingMat);
 
         // Creates a list for all contoured objects the camera will find
         List<MatOfPoint> contoursList = new ArrayList<>();
 
         Imgproc.findContours(workingMat, contoursList, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        Imgproc.drawContours(selectionMask, contoursList,-1, new Scalar(40,40,40),2);
+        Imgproc.drawContours(selectionMask, contoursList,-1, new Scalar(100,100,100),2);
 
         // Scores all the contours and selects the best of them
         for(MatOfPoint contour : contoursList){

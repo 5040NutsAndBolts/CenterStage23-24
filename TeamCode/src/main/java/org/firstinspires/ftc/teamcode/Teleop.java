@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Teleop extends LinearOpMode
 {
     boolean slowMode;
-    //boolean robotDrive = true;
+    boolean robotDrive = true;
     double driveSpeed = 1;
 
     boolean dUP1Pressed;
@@ -40,21 +40,18 @@ public class Teleop extends LinearOpMode
                 driveSpeed = 1;
 
             //drive mode toggles
-            /*if (gamepad1.dpad_right)
+            if (gamepad1.dpad_right)
                 robotDrive = true;
             if (gamepad1.dpad_left)
                 robotDrive = false;
 
             //Drivetrain code
-            if(robotDrive)
+            //if(robotDrive)
                 robot.robotODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
                         gamepad1.right_stick_x * driveSpeed);
-            if(!robotDrive)
-                robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
-                        -gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);*/
-
-            robot.robotODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
-                    gamepad1.right_stick_x * driveSpeed);
+            //if(!robotDrive)
+            //    robot.fieldODrive(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed,
+            //            -gamepad1.right_stick_x * driveSpeed, gamepad1.dpad_down);
 
             //Transfer Code --
             //slides go up proportionally to stick value
@@ -134,21 +131,23 @@ public class Teleop extends LinearOpMode
                 robot.depositServoTwo.setPosition(0);
             // -- End Deposit Code
 
+            //
             //pull up code
             if(gamepad1.left_bumper)
-                robot.hangMotor.setPower(-1);
+                robot.hangMotor.setPower(1);
             else
                 robot.hangMotor.setPower(0);
+
 
             //Telemetry
             telemetry.addData("slide height", robot.transferM1.getCurrentPosition());
             telemetry.addData("slowmode?", slowMode);
-            //telemetry.addData("robot drive?", robotDrive);
+            telemetry.addData("robot drive?", robotDrive);
             telemetry.addLine();
             if(slowMode)
                 telemetry.addLine("YOU ARE IN SLOWMODE");
-            /*if(!robotDrive)
-                telemetry.addLine("YOU ARE USING FIELD ORIENTED DRIVE");*/
+            if(!robotDrive)
+                telemetry.addLine("YOU ARE USING FIELD ORIENTED DRIVE");
             telemetry.update();
         }
     }

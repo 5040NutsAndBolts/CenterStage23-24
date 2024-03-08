@@ -21,6 +21,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 public class Hardware
 {
+
+    //pull up motor
+    public DcMotorEx hangMotor;
+
     //Drive Motors Declaration
     public DcMotorEx frontLeft;
     public DcMotorEx frontRight;
@@ -48,9 +52,6 @@ public class Hardware
     public Servo depositServoOne;
     public Servo depositServoTwo;
 
-    //pull up motor
-    public DcMotorEx hangMotor;
-
     //Line sensor
     public ColorSensor lineSensor;
 
@@ -70,8 +71,10 @@ public class Hardware
     public static final double ODOM_TICKS_PER_IN = 335.4658854;
     public static double trackwidth = 15.57716028;
 
-    public Hardware(HardwareMap hardwareMap)
-    {
+    public Hardware(HardwareMap hardwareMap) {
+        //hang motor//
+        hangMotor = hardwareMap.get(DcMotorEx.class, "Hang Motor");
+
         //Drive Motor Initialization
         frontLeft = hardwareMap.get(DcMotorEx.class, "Front Left");
         frontRight = hardwareMap.get(DcMotorEx.class, "Front Right");
@@ -81,19 +84,16 @@ public class Hardware
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-
         //gyro setup
-        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);*/
+        //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        //imu = hardwareMap.get(BNO055IMU.class, "imu");
+        //imu.initialize(parameters);
+        //imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
+        //Odom
+        leftOdom = hardwareMap.get(DcMotorEx.class, "Front Right");
+        rightOdom = hardwareMap.get(DcMotorEx.class, "Back Right");
+        centerOdom = hardwareMap.get(DcMotorEx.class, "Front Left");
 
         //Transfer Motor Config -- Raise motor
         transferM1 = hardwareMap.get(DcMotorEx.class, "Transfer Motor 1");
@@ -119,16 +119,16 @@ public class Hardware
         depositServoOne = hardwareMap.get(Servo.class, "Right Deposit");
         depositServoTwo = hardwareMap.get(Servo.class, "Left Deposit");
 
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         //color sensor
         lineSensor = hardwareMap.get(ColorSensor.class, "Line Sensor");
-
-        //hang motor
-        hangMotor = hardwareMap.get(DcMotorEx.class, "Hang Motor");
-
-        //Odom
-        leftOdom = hardwareMap.get(DcMotorEx.class, "Front Right");
-        rightOdom = hardwareMap.get(DcMotorEx.class, "Back Right");
-        centerOdom = hardwareMap.get(DcMotorEx.class, "Front Left");
     }
 
     //robot-oriented drive method
@@ -152,24 +152,24 @@ public class Hardware
     }
 
     //field oriented drive
-    /*public void fieldODrive(double forward, double sideways, double rotation, boolean reset)
-    {
-        double P = Math.hypot(sideways, forward);
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+    //public void fieldODrive(double forward, double sideways, double rotation, boolean reset)
+    //{
+    //    double P = Math.hypot(sideways, forward);
+    //    Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
 
-        double robotAngle = Math.atan2(forward, sideways);
+    //    double robotAngle = Math.atan2(forward, sideways);
 
-        if (reset)
-            adjust = angles.firstAngle;
+    //    if (reset)
+    //        adjust = angles.firstAngle;
 
-        double v5 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
-        double v6 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
-        double v7 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
-        double v8 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
+    //    double v5 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
+    //    double v6 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
+    //    double v7 = P * Math.sin(robotAngle - angles.firstAngle + adjust) - P * Math.cos(robotAngle - angles.firstAngle + adjust) - rotation;
+    //    double v8 = P * Math.sin(robotAngle - angles.firstAngle + adjust) + P * Math.cos(robotAngle - angles.firstAngle + adjust) + rotation;
 
-        frontLeft.setPower(v5);
-        frontRight.setPower(v6);
-        backLeft.setPower(v7);
-        backRight.setPower(v8);
-    }*/
+    //    frontLeft.setPower(v5);
+    //    frontRight.setPower(v6);
+    //    backLeft.setPower(v7);
+    //    backRight.setPower(v8);
+    //}
 }
