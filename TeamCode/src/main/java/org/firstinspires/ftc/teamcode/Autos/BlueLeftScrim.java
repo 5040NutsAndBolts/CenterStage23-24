@@ -68,7 +68,7 @@ public class BlueLeftScrim extends LinearOpMode
 
             if(BlueFinder.screenPosition.x > 750)
                 auto = autoPos.right;
-            else if (BlueFinder.screenPosition.x < 250)
+            else if (BlueFinder.screenPosition.x < 300)
                 auto = autoPos.left;
             else
                 auto = autoPos.center;
@@ -91,133 +91,130 @@ public class BlueLeftScrim extends LinearOpMode
         while(opModeIsActive())
         {
             //left spike mark//
-            if(auto == autoPos.left){
-                    //strafe to spike mark
-                    while ((robot.x < 28) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(-.5,0,0);
+            if(auto == autoPos.left)
+            {
+                //forward to spike mark
+                while ((robot.x < 23) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.5,0,0);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
 
-                    //turn right
-                    while((robot.theta > 4.85 || robot.theta < 1) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0,0,.5);
+                //turn left
+                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,-.5);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
 
-                    //strafe to spike mark
-                    while ((robot.x < 36.5) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0,.5,0);
+                //strafe to spike mark
+                while ((robot.x < 36.5) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
 
-                    //slight forward
-                    while ((robot.y < 24) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(.25 ,0,0);
+                //slight forward
+                while ((robot.y < -9) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(-.25 ,0,0);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
 
-                    ElapsedTime depositTimer = new ElapsedTime();
-                    depositTimer.startTime();
+                ElapsedTime depositTimer = new ElapsedTime();
+                depositTimer.startTime();
 
-                    //deposit pixel
-                    while (depositTimer.seconds()<5 && opModeIsActive())
-                    {
-                        robot.robotODrive(0, 0, 0);
-                        robot.transferCR1.setPower(-1);
-                        robot.transferCR2.setPower(-1);
-                        robot.intakeMotor.setPower(.75);
-                        robot.intakeServo.setPower(-1);
+                //deposit pixel
+                while (depositTimer.seconds() < 3 && opModeIsActive())
+                {
+                    robot.robotODrive(0, 0, 0);
+                    robot.transferCR1.setPower(-1);
+                    robot.transferCR2.setPower(-1);
+                    robot.intakeMotor.setPower(.75);
+                    robot.intakeServo.setPower(-1);
 
-                        telemetry.addData("time", depositTimer.seconds());
-                        telemetry.update();
-                    }
+                    telemetry.addData("time", depositTimer.seconds());
+                    telemetry.update();
+                }
 
-                    ElapsedTime dontBreakTheBackBoard = new ElapsedTime();
-                    dontBreakTheBackBoard.startTime();
-                    //back up
-                    while ((robot.y > 0) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(.18 ,0,0);
+                //back up
+                while ((robot.y > -13) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(.25 ,0,0);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                        if(dontBreakTheBackBoard.seconds() > 2.75)
-                            break;
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
 
-                    robot.transferCR1.setPower(0);
-                    robot.transferCR2.setPower(0);
-                    robot.intakeMotor.setPower(0);
-                    robot.intakeServo.setPower(0);
+                robot.transferCR1.setPower(0);
+                robot.transferCR2.setPower(0);
+                robot.intakeMotor.setPower(0);
+                robot.intakeServo.setPower(0);
 
-                    //strafe to wall mark
-                    while ((robot.x > 20) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0,.5,0);
+                //strafe to wall mark
+                while ((robot.x > 20) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,-.5,0);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
 
-                    //turn left
-                    while((robot.theta < 4.6) && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0,0,-.5);
+                //turn right
+                while((robot.theta < 4.6) && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,0,-.5);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.update();
+                }
 
-                    ElapsedTime bangBangTimer = new ElapsedTime();
-                    bangBangTimer.startTime();
+                ElapsedTime bangBangTimer = new ElapsedTime();
+                bangBangTimer.startTime();
 
-                    //bang into wall
-                    while (bangBangTimer.seconds() < 0.75 && opModeIsActive())
-                    {
-                        robot.updatePositionRoadRunner();
-                        robot.robotODrive(0,.5,0);
+                //bang into wall
+                while (bangBangTimer.seconds() < 1 && opModeIsActive())
+                {
+                    robot.updatePositionRoadRunner();
+                    robot.robotODrive(0,.5,0);
 
-                        telemetry.addData("x", robot.x);
-                        telemetry.addData("y", robot.y);
-                        telemetry.addData("theta", robot.theta);
-                        telemetry.addData("bang Time",bangBangTimer);
-                        telemetry.update();
-                    }
+                    telemetry.addData("x", robot.x);
+                    telemetry.addData("y", robot.y);
+                    telemetry.addData("theta", robot.theta);
+                    telemetry.addData("bang Time",bangBangTimer);
+                    telemetry.update();
+                }
+            } //end of auto 1 branch
 
-                } //end of auto 1 branch
             //center spike mark
             if(auto == autoPos.center)
             {
@@ -413,10 +410,10 @@ public class BlueLeftScrim extends LinearOpMode
             timeOut.startTime();
 
             //approach backdrop until robot sees line or hits timeout
-            while (timeOut.seconds() < 6 && opModeIsActive())
+            while (timeOut.seconds() < 5 && opModeIsActive())
             {
                 robot.updatePositionRoadRunner();
-                robot.robotODrive(.5 ,0,0);
+                robot.robotODrive(.25 ,0,0);
 
                 //stop moving and reset position when robot sees line
                 if(robot.lineSensor.blue() > 300)
@@ -433,6 +430,7 @@ public class BlueLeftScrim extends LinearOpMode
                 telemetry.addData("y", robot.y);
                 telemetry.addData("theta", robot.theta);
                 telemetry.addData("time", timeOut.seconds());
+                telemetry.addData("blue", robot.lineSensor.blue());
                 telemetry.update();
             }
 
@@ -448,7 +446,7 @@ public class BlueLeftScrim extends LinearOpMode
             //line up with backdrop according to randomization
             if(auto == autoPos.left)
             {
-                while ((robot.x < 25) && opModeIsActive())
+                while ((robot.x < 21) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -462,7 +460,7 @@ public class BlueLeftScrim extends LinearOpMode
 
             if(auto == autoPos.center)
             {
-                while ((robot.x < 25) && opModeIsActive())
+                while ((robot.x < 23) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,-.5,0);
@@ -598,7 +596,6 @@ public class BlueLeftScrim extends LinearOpMode
                 telemetry.addLine("program done");
                 telemetry.update();
             }
-
         } //end of while(opModeIsActive)
     }
 }

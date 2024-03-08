@@ -99,7 +99,7 @@ public class BlueRightScrim extends LinearOpMode
         {
             if(auto == autoPos.left)
             {
-                //strafe to spike mark
+                //forward to spike mark
                 while ((robot.x < 23) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
