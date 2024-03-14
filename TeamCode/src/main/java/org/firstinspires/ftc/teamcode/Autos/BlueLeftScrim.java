@@ -133,7 +133,7 @@ public class BlueLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit pixel
-                while (depositTimer.seconds() < 3 && opModeIsActive())
+                while (depositTimer.seconds() < 2 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
@@ -222,7 +222,7 @@ public class BlueLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit purple pixel
-                while (depositTimer.seconds() < 4 && opModeIsActive())
+                while (depositTimer.seconds() < 2 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
@@ -321,7 +321,7 @@ public class BlueLeftScrim extends LinearOpMode
                 depositTimer.startTime();
 
                 //deposit pixel
-                while (depositTimer.seconds()< 5 && opModeIsActive())
+                while (depositTimer.seconds() < 2 && opModeIsActive())
                 {
                     robot.robotODrive(0, 0, 0);
                     robot.transferCR1.setPower(-1);
@@ -510,7 +510,7 @@ public class BlueLeftScrim extends LinearOpMode
 
             ElapsedTime pause = new ElapsedTime();
             pause.startTime();
-            while(pause.seconds() < 1)
+            while(pause.seconds() < 0.5)
             {
                 robot.robotODrive(0,0,0);
             }
@@ -522,7 +522,7 @@ public class BlueLeftScrim extends LinearOpMode
             //wait at backdrop
             pause.reset();
             pause.startTime();
-            while(pause.seconds() < 1)
+            while(pause.seconds() < 0.5)
             {
                 robot.robotODrive(0,0,0);
             }
