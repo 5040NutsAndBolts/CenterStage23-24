@@ -515,7 +515,7 @@ public class RedRightScrim extends LinearOpMode
 
             ElapsedTime pause = new ElapsedTime();
             pause.startTime();
-            while(pause.seconds() < 1)
+            while(pause.seconds() < 0.5)
             {
                 robot.robotODrive(0,0,0);
             }
@@ -527,7 +527,7 @@ public class RedRightScrim extends LinearOpMode
             //wait at backdrop
             pause.reset();
             pause.startTime();
-            while(pause.seconds() < 1)
+            while(pause.seconds() < 0.5)
             {
                 robot.robotODrive(0,0,0);
             }
