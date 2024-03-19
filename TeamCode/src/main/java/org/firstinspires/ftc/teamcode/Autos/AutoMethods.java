@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autos;
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -18,13 +19,23 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 @Disabled
 public class AutoMethods extends LinearOpMode {
+    protected Odometry odo = new Odometry(hardwareMap);
+
+    protected AllianceColor alC;
+    protected ArduCam cam = new ArduCam(alC);
+    protected OpenCvWebcam openCV = initializeOpenCv();
+    protected SpikeMarkPosition smp;
+
+    protected LineSensor ls = new LineSensor(hardwareMap);
+    protected Deposit deposit = new Deposit(hardwareMap);
+    protected Lift lift = new Lift(hardwareMap);
+    protected Drivetrain dt = new Drivetrain(hardwareMap);
+
+    protected Telemetry dash = FtcDashboard.getInstance().getTelemetry();
+
 
     //CAMERA METHODS ------------------------------------------------------------------------------------------------
-    public static ArduCam initializeCamera(AllianceColor allianceColor) {
-        return new ArduCam(allianceColor);
-    }
-
-    public static OpenCvWebcam initializeOpenCv(HardwareMap hardwareMap, ArduCam camera) {
+    public OpenCvWebcam initializeOpenCv() {
         //camera setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         OpenCvWebcam webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
@@ -37,117 +48,57 @@ public class AutoMethods extends LinearOpMode {
                 webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);}
             @Override public void onError(int errorCode) {}});
 
-        webcam.setPipeline(camera);
+        webcam.setPipeline(cam);
         return webcam;
     }
-    public static SpikeMarkPosition spikeMarkFinder(ArduCam cam) {
-        //This is what to tune when the positions of what we are looking for change, like when we move the camera
-        if (cam.getWidth() < 60 || cam.getHeight() < 30)
-            return SpikeMarkPosition.right;
-        else {
-            if (cam.getScreenPosition().x > 100)
-                return SpikeMarkPosition.center;
-            else
-                return SpikeMarkPosition.left;
-        }
-    }
 
-    public static void displayCameraTelemetry(Telemetry tele, Telemetry dashTele, SpikeMarkPosition spikePos) {
-        tele.addData("Auto", spikePos);
-        tele.addData("X Pos", TSEFinder.screenPosition.x);
-        tele.addData("Y Pos", TSEFinder.screenPosition.y);
-        tele.update();
-        dashTele.addData("auto", spikePos);
-        dashTele.update();
+    public void displayCameraTelemetry() {
+        telemetry.addData("Auto", smp);
+        telemetry.addData("X Pos", TSEFinder.screenPosition.x);
+        telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+        telemetry.update();
+        dash.addData("auto", smp);
+        dash.update();
     }
 
 
     //COLOUR SENSOR METHODS -----------------------------------------------------------------------------------------
-    public static boolean lineSeen(LineSensor lineSensor) {
-        return lineSensor.getBlueValue() > 175;
+    public boolean lineSeen() {
+        return ls.getBlueValue() > 175;
     }
 
 
     //MOVEMENT METHODS ----------------------------------------------------------------------------------------------
-    public static void displayMovementTelemetry(Telemetry tele, Odometry odo) {
-        tele.addData("x", odo.x);
-        tele.addData("y", odo.y);
-        tele.addData("theta", odo.theta);
-        tele.update();
+    private double calculateSpeedArc(double dist) {
+        if (dist < 10 && dist > -10)
+            return -1 * (.5 * (Math.cos(dist / Math.PI))) + .5;
+        else
+            return 1;
     }
-
-    public static void moveX(double distance, Odometry odo, Drivetrain dt, Telemetry tele){
-        while (odo.x < distance){
-            odo.updatePositionRoadRunner();
-            dt.robotODrive(0, 1, 0);
-            displayMovementTelemetry(tele, odo);
-        }
-    }
-    public static void moveX(double distance, double speed, Odometry odo, Drivetrain dt, Telemetry tele){
-        while (odo.x < distance){
-            odo.updatePositionRoadRunner();
-            dt.robotODrive(0, speed, 0);
-            displayMovementTelemetry(tele, odo);
-        }
-    }
-
-    public static void moveY(double distance, Odometry odo, Drivetrain dt, Telemetry tele){
-        while (odo.y < distance){
-            odo.updatePositionRoadRunner();
-            dt.robotODrive(0, 1, 0);
-            displayMovementTelemetry(tele, odo);
-        }
-    }
-    public static void moveY(double distance, double speed, Odometry odo, Drivetrain dt, Telemetry tele){
-        while (odo.y < distance){
-            odo.updatePositionRoadRunner();
-            dt.robotODrive(0, speed, 0);
-            displayMovementTelemetry(tele, odo);
-        }
-    }
-
-    public static void turnClockwise(double angle, Odometry odo, Drivetrain dt, Telemetry tele) {
-        while (odo.theta < angle){
-        odo.updatePositionRoadRunner();
-        dt.robotODrive(0, 0, 1);
-        displayMovementTelemetry(tele, odo);
-        }
-    }
-    public static void turnClockwise(double angle, double speed, Odometry odo, Drivetrain dt, Telemetry tele) {
-        while (odo.theta < angle){
-        odo.updatePositionRoadRunner();
-        dt.robotODrive(0, 0, speed);
-        displayMovementTelemetry(tele, odo);
-        }
-    }
-
-    public static void turnCounterClockwise(double angle, Odometry odo, Drivetrain dt, Telemetry tele) {
-        while (odo.theta < angle){
-        odo.updatePositionRoadRunner();
-        dt.robotODrive(0, 0, -1);
-        displayMovementTelemetry(tele, odo);
-        }
-    }
-    public static void turnCounterClockwise(double angle, double speed, Odometry odo, Drivetrain dt, Telemetry tele) {
-        while (odo.theta < angle){
-        odo.updatePositionRoadRunner();
-        dt.robotODrive(0, 0, -speed);
-        displayMovementTelemetry(tele, odo);
-        }
+    public void moveTo(double x, double y, double theta) {
+        while(odo.x != x && odo.y != y)
+            dt.robotODrive(calculateSpeedArc(y - odo.y),calculateSpeedArc(x - odo.x),0);
     }
 
 
     //LIFT METHODS --------------------------------------------------------------------------------------------------
-    public static void raiseLift(Lift lift){
+    public void raiseLift(){
         while(lift.getSlidePosition() < 1200)
             lift.goUp(1);
     }
 
 
     //DEPOSIT METHODS -----------------------------------------------------------------------------------------------
-    public static void dropPixels(Deposit deposit) {
+    public void dropPixels() {
         deposit.rightDrop();
         deposit.leftDrop();
+    }
+
+
+    //BACKUP METHODS ------------------------------------------------------------------------------------------------
+    public void nullALCCheck(){
+        if(alC == null)
+            telemetry.addLine("Programming issue! Alliance color was not initialized in the auto program.");
     }
 
     @Override

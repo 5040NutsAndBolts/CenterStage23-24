@@ -1,74 +1,34 @@
 package org.firstinspires.ftc.teamcode.Autos;
-
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.checkerframework.checker.units.qual.A;
-import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
-import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Mechanisms.ArduCam;
-import org.firstinspires.ftc.teamcode.Mechanisms.Drivetrain;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "Blue Left Auto", group = "Autonomous")
 public class BlueLeftScrim extends AutoMethods {
-    public boolean lineSeen;
-    private SpikeMarkPosition spikePos;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
-        //initializes robot
-        Odometry robot = new Odometry(hardwareMap);
-
-        ArduCam camera = initializeCamera(AllianceColor.blue);
-        OpenCvWebcam webcam = initializeOpenCv(hardwareMap, camera);
-
-        Telemetry dashboardTelemetry = FtcDashboard.getInstance().getTelemetry();
-
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
-        while(!isStopRequested() && !isStarted()) {
-            spikePos = spikeMarkFinder(camera);
-            displayCameraTelemetry(telemetry, dashboardTelemetry, spikePos);
-        }
-
-        robot.resetOdometry(0,0,0);
         waitForStart();
 
         //this loop runs after play pressed
         while(opModeIsActive())
         {
-            //strafe right
-            moveY(-1, robot, drivetrain, telemetry);
+            alC = AllianceColor.blue;
 
-
-            while(robot.y > -1 && opModeIsActive())
-            {
-                robot.updatePositionRoadRunner();
-                robot.robotODrive(0,.5,0);
-
-                telemetry.addData("x", robot.x);
-                telemetry.addData("y", robot.y);
-                telemetry.addData("theta", robot.theta);
-                telemetry.update();
-            }
+            if(cam.getScreenPosition().x > 750)
+                smp = SpikeMarkPosition.right;
+            else if (cam.getScreenPosition().x < 300)
+                smp = SpikeMarkPosition.left;
+            else
+                smp = SpikeMarkPosition.center;
 
             //left spike mark
-            if(auto == autoPos.left)
+            if(smp == SpikeMarkPosition.left)
             {
                 //turn left
-                while((robot.theta < 1.5 || robot.theta > 5) && opModeIsActive())
+                while((odo.theta < 1.5 || robot.theta > 5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
                     robot.robotODrive(0,0,-.5);

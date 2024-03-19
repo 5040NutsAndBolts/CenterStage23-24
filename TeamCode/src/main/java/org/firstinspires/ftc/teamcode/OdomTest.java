@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Mechanisms.Drivetrain;
-import org.firstinspires.ftc.teamcode.Mechanisms.Odom;
 import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
 //import org.firstinspires.ftc.teamcode.roadrunnerquickstart.drive.util.Encoder;
 
@@ -15,7 +14,6 @@ public class OdomTest extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
-        Odom.currentOpMode=this;
         Odometry robot = new Odometry(hardwareMap);
         Drivetrain drivetrain = new Drivetrain(hardwareMap);
 
