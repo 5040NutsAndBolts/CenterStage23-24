@@ -59,7 +59,7 @@ public class RedLeftScrim extends LinearOpMode
 
         while(!isStopRequested() && !isStarted())
         {
-            //find correct auto to run
+             //find correct auto to run
             if (RedFinder.width<=90 && RedFinder.height<=90)
                 auto=autoPos.right;
             else if (RedFinder.width>=90)

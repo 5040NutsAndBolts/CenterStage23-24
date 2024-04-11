@@ -71,23 +71,18 @@ public class Teleop extends LinearOpMode {
             //Deposit
             if (gamepad1.right_bumper)
                 deposit.rightDrop();
-             else
+            else
                 deposit.rightZeroPosition();
             if (gamepad1.left_bumper)
                 deposit.leftDrop();
-             else
+            else
                 deposit.leftZeroPosition();
-
 
             //Telemetry
             telemetry.addData("slide height", lift.getSlidePosition());
             telemetry.addData("slowmode?", drivetrain.getSlowMode());
             telemetry.addData("robot drive?", robotDrive);
             telemetry.addLine();
-            if(drivetrain.getSlowMode())
-                telemetry.addLine("YOU ARE IN SLOWMODE");
-            if(!robotDrive)
-                telemetry.addLine("YOU ARE USING FIELD ORIENTED DRIVE");
             telemetry.update();
         }
     }

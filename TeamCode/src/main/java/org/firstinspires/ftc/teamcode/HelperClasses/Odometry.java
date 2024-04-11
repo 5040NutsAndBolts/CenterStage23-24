@@ -111,7 +111,7 @@ public class Odometry  {
         }
     }
 
-    public void updatePositionRoadRunner()
+    public void updatePosition()
     {
         /*try
         {

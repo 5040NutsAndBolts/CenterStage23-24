@@ -16,15 +16,12 @@ public class Drivetrain
 
 
     //Drive Motors Declaration
-    private static DcMotorEx frontLeft;
-    private static DcMotorEx frontRight;
-    private static DcMotorEx backLeft;
-    private static DcMotorEx backRight;
+    private static DcMotorEx frontLeft,frontRight,backLeft,backRight;
 
     //gyro  setup
     private static BNO055IMU imu;
     private static double adjust;
-    private static boolean slowMode = false;
+    private double speed = 1;
 
     public Drivetrain(HardwareMap hardwareMap)
     {
@@ -80,11 +77,20 @@ public class Drivetrain
         backRight.setPower(v8);
     }
 
-    public static void toggleSlowMode() {
-        slowMode = !slowMode;
+    public void neutral() {
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
-    public static boolean getSlowMode() {
-        return slowMode;
+    public void toggleSlowMode() {
+        if(getSlowMode())
+            speed=1;
+        else speed=.5;
+    }
+
+    public boolean getSlowMode() {
+        return speed == 1;
     }
 }

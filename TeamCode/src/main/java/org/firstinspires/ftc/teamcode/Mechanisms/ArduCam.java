@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArduCam extends OpenCvPipeline {
-    private static double score;
-    private static double height = 0, width = 0;
-    private static Point screenPosition = new Point(0,0);
-    private static AllianceColor allianceColor;
+    private double score;
+    private double height = 0, width = 0;
+    private Point screenPosition = new Point(0,0);
+    private AllianceColor allianceColor;
     private Mat
             rawImage,       // Raw image output from the camera
             workingMat,     // The image currently being worked on and being modified
@@ -112,7 +112,11 @@ public class ArduCam extends OpenCvPipeline {
         return selectionMask;
     }
 
-    public static double getHeight() {return height;}
-    public static Point getScreenPosition() {return screenPosition;}
-    public static double getWidth() {return width;}
+    public double getScore() {
+        return score;
+    }
+
+    public double getHeight() {return height;}
+    public Point getScreenPosition() {return screenPosition;}
+    public double getWidth() {return width;}
 }

@@ -34,7 +34,10 @@ public class AutoMethods extends LinearOpMode {
 
 
     //CAMERA METHODS ------------------------------------------------------------------------------------------------
-    public OpenCvWebcam initializeOpenCv() {
+    protected OpenCvWebcam initializeOpenCv() {
+        if(alC == null)
+            throw new NullPointerException("Uninitialized alliance color"); //makes sure code doesn't break if someone forgets to initialize the alliance color
+
         //camera setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         OpenCvWebcam webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
@@ -51,55 +54,77 @@ public class AutoMethods extends LinearOpMode {
         return webcam;
     }
 
-    public void displayCameraTelemetry() {
-        telemetry.addData("Auto", smp);
-        telemetry.addData("X Pos", TSEFinder.screenPosition.x);
-        telemetry.addData("Y Pos", TSEFinder.screenPosition.y);
+    protected SpikeMarkPosition findSMPos (int boundLeft, int boundRight) {
+        if(cam.getScreenPosition().x > boundLeft)
+            return SpikeMarkPosition.right;
+        else if (cam.getScreenPosition().x < boundRight)
+            return SpikeMarkPosition.left;
+        else
+            return SpikeMarkPosition.center;
+    }
+
+    protected void displayCameraTelemetry() {
+        telemetry.addData("Auto: ", smp);
+        telemetry.addData("X Pos: ", cam.getScreenPosition().x);
+        telemetry.addData("Y Pos: ", cam.getScreenPosition().x);
+        telemetry.addData("Score: ", cam.getScore());
+        telemetry.addData("Width: ", cam.getWidth());
+        telemetry.addData("Height: ", cam.getHeight());
         telemetry.update();
-        dash.addData("auto", smp);
+        dash.addData("auto num", smp);
+        dash.addData("X Position: ", cam.getScreenPosition().x);
+        dash.addData("Y Position: ", cam.getScreenPosition().y);
+        dash.addData("Score: ", cam.getScore());
+        dash.addData("Width: ", cam.getWidth());
+        dash.addData("Height: ", cam.getHeight());
         dash.update();
     }
 
-
     //COLOUR SENSOR METHODS -----------------------------------------------------------------------------------------
-    public boolean lineSeen() {
+    protected boolean lineSeen() {
         return ls.getBlueValue() > 175;
     }
 
 
     //MOVEMENT METHODS ----------------------------------------------------------------------------------------------
-    private double calculateSpeedArc(double dist) {
+    protected double calculateSpeedArc(double dist) {
         if (dist < 10 && dist > -10)
             return -1 * (.5 * (Math.cos(dist / Math.PI))) + .5;
         else
             return 1;
     }
-    public void moveTo(double x, double y, double theta) {
-        while(odo.x != x && odo.y != y)
+    protected void updateAutoTelemetry() {
+        telemetry.addData("x", odo.x);
+        telemetry.addData("y", odo.y);
+        telemetry.addData("theta", odo.theta);
+
+        dash.addData("x", odo.x);
+        dash.addData("y", odo.y);
+        dash.addData("theta", odo.theta);
+        telemetry.update();
+        dash.update();
+    }
+    protected void moveTo(double x, double y, double theta) {
+        while(odo.x != x && odo.y != y && opModeIsActive())
             dt.robotODrive(calculateSpeedArc(y - odo.y),calculateSpeedArc(x - odo.x),0);
+        odo.updatePosition();
+        updateAutoTelemetry();
+
     }
 
 
     //LIFT METHODS --------------------------------------------------------------------------------------------------
-    public void raiseLift(){
+    protected void raiseLift(){
         while(lift.getSlidePosition() < 1200)
             lift.goUp(1);
     }
 
 
     //DEPOSIT METHODS -----------------------------------------------------------------------------------------------
-    public void dropPixels() {
+    protected void dropPixels() {
         deposit.rightDrop();
         deposit.leftDrop();
     }
 
-
-    //BACKUP METHODS ------------------------------------------------------------------------------------------------
-    public void nullALCCheck(){
-        if(alC == null)
-            telemetry.addLine("Programming issue! Alliance color was not initialized in the auto program.");
-    }
-
-    @Override
     public void runOpMode() throws InterruptedException {}
 }

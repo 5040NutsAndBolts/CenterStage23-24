@@ -61,7 +61,7 @@ public class Lift {
         transferM1.setPower(amt);
         transferM2.setPower(amt);
     }
-    private void setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior zpb) {
+    public void setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior zpb) {
         transferM1.setZeroPowerBehavior(zpb);
         transferM2.setZeroPowerBehavior(zpb);
     }

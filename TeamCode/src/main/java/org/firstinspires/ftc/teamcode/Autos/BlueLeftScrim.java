@@ -16,18 +16,14 @@ public class BlueLeftScrim extends AutoMethods {
         while(opModeIsActive())
         {
             alC = AllianceColor.blue;
-
-            if(cam.getScreenPosition().x > 750)
-                smp = SpikeMarkPosition.right;
-            else if (cam.getScreenPosition().x < 300)
-                smp = SpikeMarkPosition.left;
-            else
-                smp = SpikeMarkPosition.center;
+            findSMPos(750, 300);
 
             //left spike mark
             if(smp == SpikeMarkPosition.left)
             {
                 //turn left
+                moveTo(0,0,1.5);
+                moveTo(38,0,0);
                 while((odo.theta < 1.5 || robot.theta > 5) && opModeIsActive())
                 {
                     robot.updatePositionRoadRunner();
