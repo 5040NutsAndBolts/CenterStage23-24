@@ -49,7 +49,7 @@ public class Lift {
     public int getSlidePosition() { // returns integer average of the two slides
         return (transferM1.getCurrentPosition() + transferM2.getCurrentPosition()) / 2;
     }
-    public void movePID(int desiredHeight) { //Likely only going to be used for auto
+    public void movePID(double desiredHeight) { //Likely only going to be used for auto
         pidController = new PID(desiredHeight - getSlidePosition(), p, i, d); //resets data values
         while(desiredHeight != getSlidePosition() || desiredHeight != getSlidePosition()){
             pidController.update(desiredHeight-getSlidePosition());

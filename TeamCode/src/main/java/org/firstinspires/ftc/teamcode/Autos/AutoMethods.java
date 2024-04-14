@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.HelperClasses.Odometry;
-import org.firstinspires.ftc.teamcode.HelperClasses.TSEFinder;
 import org.firstinspires.ftc.teamcode.Mechanisms.ArduCam;
 import org.firstinspires.ftc.teamcode.Mechanisms.Deposit;
 import org.firstinspires.ftc.teamcode.Mechanisms.Drivetrain;
